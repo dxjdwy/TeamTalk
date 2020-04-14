@@ -6,46 +6,55 @@
 
         <!--hide-->
         <link rel="stylesheet" type="text/css" href="css/landing.css" />
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
+        <link href="css/default.css" rel="stylesheet" type="text/css" />
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
 
         <!-- Prettify Code -->
         <script type="text/javascript" src="js/prettify/prettify.js"></script>
         <link rel="stylesheet" type="text/css" href="js/prettify/prettify.css" />
         <script type="text/javascript" src="js/prettify/loadAndFilter.js"></script>
-        <script type="text/javascript" src="js/prettify/jquery.min.js"></script>
+        <!-- <script type="text/javascript" src="js/prettify/jquery.min.js"></script> -->
         <!--show-->
         <!-- Assumes global locations for socket.io.js and easyrtc.js -->
         <script src="/socket.io/socket.io.js"></script>
         <script type="text/javascript" src="../easyrtc/easyrtc.js"></script>
         <script type="text/javascript" src="js/demo_instant_messaging.js"></script>
         <script type="text/javascript" src="js/demo_multiparty.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        
         <!--hide-->
         <!-- Styles used within the demo -->
         <style type="text/css">
             #stuffToSend {width:300px;}
             #sendMessageArea{
                 float:left;
-                width:400px;
-                padding-right:20px;
+                width:100%;
+                /* padding-right:20px; */
             }
             #sendMessageText{
                 width:100%;
+                height: 80px;
+                margin-bottom: 10px;
             }
             #conversation {
-                height:300px;
+                height:350px;
                 border:solid 1px gray;
                 overflow-y:scroll;
             }
-            #left {
+            /* #left {
                 position: absolute;
                 left: 16px;
                 top: 102px;
                 width: 186px;
                 height: 100%;
                 background: gray;
-            }
-            #main {
+            } */
+            /* #main {
                 margin-left: 200px;
-            }
+            } */
             #share {
                 float: right;
             }
@@ -53,8 +62,77 @@
         <!--show-->
     </head>
     <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <!-- <button type="button" class="navbar-toggle show pull-left" data-target="sidebar">
+                        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button> -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/"><img class="fa fa-user fa-fw" src="./images/br_safari.png" style="display: inline;margin-right: 10px;"></img>语音会议系统</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav" style="margin-left: 20px;">
+                        <li><a href="/">讲课模式</a></li>
+                        <li><a href="/">桌面共享</a></li>
+                        <li><a class="menu_link" href="/">退出会议</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false"><i class="fa fa-user fa-fw"></i>&nbsp;小王&nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i>&nbsp;退出登录</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <!--hide-->
-        <div id="container">
+        <div class="container-fluid all">
+            <div class="sidebar">
+                <div class="sidebar-scroll">
+                    <ul class="nav">
+                        <!-- <div id="left"> -->
+                            <!-- <div id="mine"></div> -->
+                            <!-- <div id="others"></div> -->
+                            <!-- <iframe src="./demo_multiparty.html" style="visibility: hidden"></iframe> -->
+                        <!-- </div> -->
+                        <li class="active">参会人员</li>
+                        <li id="mine"></li>
+                        <li id="others"></li>
+                        <iframe src="./demo_multiparty.html" style="visibility: hidden"></iframe>
+                    </ul>
+                </div>
+            </div>
+            <div class="maincontent row">
+                <!--我是主要内容 start-->
+                <ul class="breadcrumb" id="receiveMessageArea">
+                    <li class="active">聊天窗口</li>                                           
+                </ul>
+                <div id="main">
+                    <!-- <h2>The Demo</h2> -->
+                    <!--show-->
+                    <div  id="conversation"></div>  
+                    <div id="sendMessageArea">
+                        <textarea id="sendMessageText"></textarea>
+                        <div id="otherClients"></div>
+                    </div>
+                    <!-- <div id="share">share desktop</div> -->
+                    <!-- <div id="menu">
+                        <a class="menu_link" href="/"><span class="menu_item">退出会议</span></a>
+                    </div> -->
+                    <!--hide-->
+                    <hr />    
+                </div>
+                <!--我是主要内容 end-->
+            </div>
+        </div>
+        <!-- <div id="container">
             <div id="header">
                 <a href="index.html"><img id="logo_easyrtc" src="images/easyrtc_logo.png" alt="EasyRTC" style="" /></a>
             </div>
@@ -63,7 +141,6 @@
             </div>
             <div id="main">
                 <h2>The Demo</h2>
-                <!--show-->
                 
                 <div id="receiveMessageArea">
                     Received Messages:
@@ -75,17 +152,16 @@
                     <div id="otherClients"></div>
                 </div>
                 <div id="share">share desktop</div>
-                <!--hide-->
                 <hr />
 
-            </div>
-            <div id="left">
+            </div> -->
+            <!-- <div id="left">
                 <div>参会人员</div>
                 <div id="mine"></div>
                 <div id="others"></div>
                 <iframe src="./demo_multiparty.html" style="visibility: hidden"></iframe>
-            </div>
-        </div>
+            </div> -->
+        <!-- </div> -->
         <!--show-->
     </body>
     <script type="application/javascript">

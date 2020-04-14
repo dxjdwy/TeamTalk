@@ -92,7 +92,7 @@ function sendStuffWS(otherEasyrtcid, text) {
 
 function messageLoginSuccess(easyrtcid) {
     selfEasyrtcid = easyrtcid;
-    document.getElementById("mine").innerHTML = easyrtcid + " (YOU)";
+    document.getElementById("mine").innerHTML = easyrtcid + " (你的账号)";
 }
 
 

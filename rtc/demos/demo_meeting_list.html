@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <!--skip-->
+        <title>EasyRTC Demo: Instant Messaging + Rooms </title>
+        <link rel="stylesheet" type="text/css" href="../easyrtc/easyrtc.css" />
+
+        <!--hide-->
+        <link rel="stylesheet" type="text/css" href="css/landing.css" />
+
+        <!-- Prettify Code -->
+        <script type="text/javascript" src="js/prettify/prettify.js"></script>
+        <link rel="stylesheet" type="text/css" href="js/prettify/prettify.css" />
+        <script type="text/javascript" src="js/prettify/loadAndFilter.js"></script>
+        <script type="text/javascript" src="js/prettify/jquery.min.js"></script>
+        <!--show-->
+        <!-- Assumes global locations for socket.io.js and easyrtc.js -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="../easyrtc/easyrtc.js"></script>
+        <script type="text/javascript" src="js/demo_instant_messaging_rooms.js"></script>
+        <!--hide-->
+        <!-- Styles used within the demo -->
+        <style type="text/css">
+            #stuffToSend {
+                width:300px;
+            }
+            #sendMessageArea{
+                float:left;
+                width:400px;
+                padding-right:20px;
+            }
+            #sendMessageText{
+                width:100%;
+            }
+            #conversation {
+                height:150px;
+                border:solid 1px gray;
+                overflow-y:scroll;
+            }
+            .roomDiv {
+                margin-bottom: 15px;
+                background-color: antiquewhite;
+            }
+            .roomOccupants{
+                margin-left: 20px;
+            }
+            #main.connected>.preconnection{
+                display:none;
+            }
+            #main.notconnected>.postconnection{
+                display:none;
+            }
+            .quickJoin {
+                display: block;
+            }
+            #quickJoinBlock {
+                display: block;
+            }
+            #left {
+                position: absolute;
+                left: 16px;
+                top: 102px;
+                width: 186px;
+                height: 100%;
+                background: gray;
+            }
+            #main {
+                margin-left: 200px;
+            }
+        </style>
+        <!--show-->
+    </head>
+    <body onload="initApp();" >
+        <!--hide-->
+        <div id="container">
+            <div id="header">
+                <a href="index.html"><img id="logo_easyrtc" src="images/easyrtc_logo.png" alt="EasyRTC" style="" /></a>
+            </div>
+            <div id="main">
+                <div class="preconnection">
+                    账号: <input type="text" id="userNameField" />
+                    密码: <input type="text" id="credentialField" placeholder="不填也可以"/>
+                    <div >
+                        <button id="connectButton" onclick="connect();">Connect</button>
+                    </div>
+                    <hr>
+                </div>
+                <div class="postconnection">
+                    <button onclick="disconnect();">Disconnect from server.</button>
+                </div>
+                <hr>
+                
+
+                <div class="postconnection">
+                    <hr>
+                    
+                    <div id="receiveMessageArea">
+                        Received Messages:
+                        <div id="conversation"></div>
+                    </div>
+                    <div id="sendMessageArea">
+
+                        <div id="iam">Not connected yet</div>
+                        <textarea id="sendMessageText" placeholder="Enter your message here"></textarea>
+
+                        Rooms:
+                        <div id="rooms"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="left">
+                <p>会议列表</p>
+                <div id="quickJoinBlock"></div>
+                <div >
+                    <input id="roomToAdd" type="text" size="20" placeholder="请输入房间号"/>
+                    <button onclick="addRoom(null, null, true);">加入会议</button>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

@@ -25,6 +25,7 @@
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         
+        
         <!--hide-->
         <!-- Styles used within the demo -->
         <style type="text/css">
@@ -105,12 +106,16 @@
                         <li class="active">参会人员</li>
                         <li id="mine"></li>
                         <li id="others"></li>
-                        <iframe src="./demo_multiparty.html" style="visibility: hidden"></iframe>
+                        <!-- <div id="quickJoinBlock"></div>
+                        <div >
+                            <input id="roomToAdd" type="text" size="20" placeholder="请输入房间号"/>
+                            <button onclick="addRoom(null, null, true);">加入会议</button>
+                        </div> -->
                     </ul>
                 </div>
             </div>
             <div class="maincontent row">
-                <!--我是主要内容 start-->
+                <!--我是主要内容 start-->                   
                 <ul class="breadcrumb" id="receiveMessageArea">
                     <li class="active">聊天窗口</li>                                           
                 </ul>
@@ -119,14 +124,12 @@
                     <!--show-->
                     <div  id="conversation"></div>  
                     <div id="sendMessageArea">
-                        <textarea id="sendMessageText"></textarea>
+                        <div id="iam">Not connected yet</div>
+                        <textarea id="sendMessageText" placeholder="在这里输入信息"></textarea>
                         <div id="otherClients"></div>
+                        Rooms:
+                        <div id="rooms"></div>
                     </div>
-                    <!-- <div id="share">share desktop</div> -->
-                    <!-- <div id="menu">
-                        <a class="menu_link" href="/"><span class="menu_item">退出会议</span></a>
-                    </div> -->
-                    <!--hide-->
                     <hr />    
                 </div>
                 <!--我是主要内容 end-->

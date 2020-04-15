@@ -72,7 +72,8 @@ function setCredential(event, value) {
 function addRoom(roomName, parmString, userAdded) {
     if (!roomName) {
         roomName = document.getElementById("roomToAdd").value;
-        parmString = document.getElementById("optRoomParms").value;
+        // parmString = document.getElementById("optRoomParms").value;
+        parmString = '';
     }
     var roomid = genRoomDivName(roomName);
     if (document.getElementById(roomid)) {
@@ -98,7 +99,7 @@ function addRoom(roomName, parmString, userAdded) {
         roomOccupants.id = genRoomOccupantName(roomName);
         roomOccupants.className = "roomOccupants";
         roomdiv.appendChild(roomOccupants);
-        $(roomdiv).append(" -<a href=\"javascript:\leaveRoom('" + roomName + "')\">leave</a>");
+        $(roomdiv).append(" -<a href=\"javascript:\leaveRoom('" + roomName + "')\">退出会议</a>");
     }
 
     var roomParms = null;
@@ -209,7 +210,8 @@ function addQuickJoinButtons(roomList) {
         var div = document.createElement("div");
         div.id = id;
         div.className = "quickJoin";
-        var parmsField = document.getElementById("optRoomParms");
+        // var parmsField = document.getElementById("optRoomParms");
+        var parmsField = '';
         var button = document.createElement("button");
         button.onclick = function() {
             addRoom(roomname, parmsField.value, true);
@@ -220,15 +222,15 @@ function addQuickJoinButtons(roomList) {
         quickJoinBlock.appendChild(div);
 
     }
-    if( !roomList.room1) {
-        roomList.room1 = { numberClients:0};
-    }
-    if( !roomList.room2) {
-        roomList.room2 = { numberClients:0};
-    }
-    if( !roomList.room3) {
-        roomList.room3 = { numberClients:0};
-    }
+    // if( !roomList.room1) {
+    //     roomList.room1 = { numberClients:0};
+    // }
+    // if( !roomList.room2) {
+    //     roomList.room2 = { numberClients:0};
+    // }
+    // if( !roomList.room3) {
+    //     roomList.room3 = { numberClients:0};
+    // }
     for (var roomName in roomList) {
         addQuickJoinButton(roomName, roomList[roomName].numberClients);
     }
@@ -253,21 +255,22 @@ function occupantListener(roomName, occupants, isPrimary) {
         var button = document.createElement("button");
         button.onclick = (function(roomname, easyrtcid) {
             return function() {
-                sendMessage(easyrtcid, roomName);
+                sendMessage(easyrtcid, roomname);
             };
         })(roomName, easyrtcid);
-        var presenceText = "";
-        if (occupants[easyrtcid].presence) {
-            presenceText += "(";
-            if (occupants[easyrtcid].presence.show) {
-                presenceText += "show=" + occupants[easyrtcid].presence.show + " ";
-            }
-            if (occupants[easyrtcid].presence.status) {
-                presenceText += "status=" + occupants[easyrtcid].presence.status;
-            }
-            presenceText += ")";
-        }
-        var label = document.createTextNode(easyrtc.idToName(easyrtcid) + presenceText);
+        // var presenceText = "";
+        // if (occupants[easyrtcid].presence) {
+        //     presenceText += "(";
+        //     if (occupants[easyrtcid].presence.show) {
+        //         presenceText += "show=" + occupants[easyrtcid].presence.show + " ";
+        //     }
+        //     if (occupants[easyrtcid].presence.status) {
+        //         presenceText += "status=" + occupants[easyrtcid].presence.status;
+        //     }
+        //     presenceText += ")";
+        // }
+        var pre = '密'
+        var label = document.createTextNode(pre + easyrtc.idToName(easyrtcid));
         button.appendChild(label);
         roomDiv.appendChild(button);
     }
@@ -325,10 +328,11 @@ function sendMessage(destTargetId, destRoom) {
 
 function loginSuccess(easyrtcid) {
     selfEasyrtcid = easyrtcid;
-    document.getElementById("iam").innerHTML = "I am " + easyrtcid;
+    var username = document.getElementById("userNameField").value;
+    document.getElementById("iam").innerHTML = "I am " + username;
     refreshRoomList();
     isConnected = true;
-    displayFields();
+    // displayFields();
     document.getElementById("main").className = "connected";
 }
 

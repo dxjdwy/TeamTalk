@@ -182,7 +182,6 @@ function connect() {
     updatePresence();
     var username = document.getElementById("userNameField").value;
     var password = document.getElementById("credentialField").value;
-    
     if (username) {
         easyrtc.setUsername(username);
     }

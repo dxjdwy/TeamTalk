@@ -7,23 +7,17 @@
 
         <!--hide-->
         <link rel="stylesheet" type="text/css" href="css/landing.css" />
-        <link href="css/bootstrap.min.css" rel="stylesheet" />
-        <link href="css/font-awesome.min.css" rel="stylesheet" />
-        <link href="css/default.css" rel="stylesheet" type="text/css" />
-        <link href="css/font-awesome.min.css" rel="stylesheet" />
 
         <!-- Prettify Code -->
         <script type="text/javascript" src="js/prettify/prettify.js"></script>
         <link rel="stylesheet" type="text/css" href="js/prettify/prettify.css" />
         <script type="text/javascript" src="js/prettify/loadAndFilter.js"></script>
-        <!-- <script type="text/javascript" src="js/prettify/jquery.min.js"></script> -->
+        <script type="text/javascript" src="js/prettify/jquery.min.js"></script>
         <!--show-->
         <!-- Assumes global locations for socket.io.js and easyrtc.js -->
         <script src="/socket.io/socket.io.js"></script>
         <script type="text/javascript" src="../easyrtc/easyrtc.js"></script>
         <script type="text/javascript" src="js/demo_instant_messaging_rooms.js"></script>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
         <!--hide-->
         <!-- Styles used within the demo -->
         <style type="text/css">
@@ -78,37 +72,10 @@
     </head>
     <body onload="initApp();" >
         <!--hide-->
-        <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                            aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/"><img class="fa fa-user fa-fw" src="./images/br_safari.png" style="display: inline;margin-right: 10px;"></img>语音会议系统</a>
-                </div>
-                <div id="navbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav" style="margin-left: 20px;">
-                        <li><a href="/">讲课模式</a></li>
-                        <li><a href="/">桌面共享</a></li>
-                        <li><a class="menu_link" href="/">退出会议</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                               aria-expanded="false"><i class="fa fa-user fa-fw"></i>&nbsp;小王&nbsp;<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="login.html" onclick="disconnect()"><i class="fa fa-sign-out fa-fw"></i>&nbsp;退出登录</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav> -->
         <div id="container">
-            <!-- <div id="header">
+            <div id="header">
                 <a href="index.html"><img id="logo_easyrtc" src="images/easyrtc_logo.png" alt="EasyRTC" style="" /></a>
-            </div> -->
+            </div>
             <div id="main">
                 <div class="preconnection">
                     账号: <input type="text" id="userNameField" />
@@ -118,9 +85,9 @@
                     </div>
                     <hr>
                 </div>
-                <!-- <div class="postconnection">
+                <div class="postconnection">
                     <button onclick="disconnect();">Disconnect from server.</button>
-                </div> -->
+                </div>
                 <hr>
                 
 

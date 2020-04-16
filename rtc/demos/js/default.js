@@ -63,6 +63,7 @@ var pageInitModule = (function (mod) {
         $(".navbar-nav a[href],.sidebar a[href]").each(function () {
             var href = $(this).attr("href").toLowerCase();
             var isActive = false;
+            
             $(".breadcrumb>li a[href]").each(function (index) {
                 if (href == $(this).attr("href").toLowerCase()) {
                     isActive = true;

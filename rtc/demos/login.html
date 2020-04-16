@@ -3,10 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <!--skip-->
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="../easyrtc/easyrtc.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../easyrtc/easyrtc.css" /> -->
 
     <!--hide-->
-    <link rel="stylesheet" type="text/css" href="css/landing.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="css/landing.css" /> -->
 
     <!-- Prettify Code -->
     <script type="text/javascript" src="js/prettify/prettify.js"></script>
@@ -19,11 +19,11 @@
     <script type="text/javascript" src="../easyrtc/easyrtc.js"></script>
     <script type="text/javascript" src="js/demo_instant_messaging_rooms.js"></script>
 
-    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/AdminLTE.min.css">
-    <link rel="stylesheet" href="css/all-skins.min.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/AdminLTE.min.css" />
+    <link rel="stylesheet" href="css/all-skins.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
     <script src="js/vue.js"></script>
     <script src="js/login.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -40,14 +40,14 @@
             <div class="form-group has-feedback">
               <input type="text" id="user" class="form-control" placeholder="请输入用户名" onblur="Pclogin()">
             </div>
-            <div class="form-group has-feedback">
+            <div class="form-group has-feedback" style="margin-bottom: 20px;">
               <input type="password" id="PasswordI" class="form-control" placeholder="请输入密码" onblur="PcloginI()">
             </div>
-            <h4 id="Loginhive" style="display: none;"><i class="fa fa-exclamation-triangle"></i></h4>
+            <h6 id="Loginhive" style="display: none;color: rgb(245, 17, 17);margin-bottom: 3px;"><i class="fa fa-exclamation-triangle"></i></h6>
             <div class="row">
-                <div class="col-xs-4">
-                  <button type="button" class="btn btn-primary btn-block btn-flat" onclick="login();connect()">登录</button>
-                  <button type="button" class="btn btn-primary btn-block btn-flat"  data-toggle="modal" data-target="#myModal">注册</button>
+                <div class="col-xs-4" style="width: 100%;margin: 0px auto;padding: 0px 0px;">
+                  <button type="button" class="btn btn-primary btn-block btn-flat" onclick="login();connect()" style="padding: 3px 16px;">登录</button>
+                  <button type="button" class="btn btn-primary btn-block btn-flat"  data-toggle="modal" data-target="#myModal" style="padding: 3px 16px;">注册</button>
                 </div>
             </div>
         </div>
@@ -58,23 +58,23 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="reg_cancel();">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">注册</h4>
             </div>
             <div class="modal-body">
               <div class="form-group has-feedback">
-                <input type="text" id="reg_username" class="form-control" v-model="username1" placeholder="请输入用户名">
+                <input type="text" id="reg_username" class="form-control"  placeholder="请输入用户名" value="">
               </div>
               <div class="form-group has-feedback">
-                <input type="password" id="reg_passwordI" class="form-control" v-model="password1" placeholder="请输入密码" >
+                <input type="password" id="reg_passwordI" class="form-control"  placeholder="请输入密码" >
               </div>
               <div class="form-group has-feedback">
-                <input type="password" id="reg_passwordII" class="form-control" v-model="password2" placeholder="请输入密码" >
+                <input type="password" id="reg_passwordII" class="form-control"  placeholder="请输入密码" >
               </div>
               
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="reg_cancel();">取消</button>
                 <button type="button" class="btn btn-primary" onclick="reg_submit();">提交注册</button>
             </div>
         </div><!-- /.modal-content -->

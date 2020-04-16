@@ -3613,8 +3613,8 @@ table.text-center, table.text-center td, table.text-center th {
 }
 
 .login-logo, .register-logo {
-	width: 288px;
-    height: 288px;
+	width: 458px;
+    height: 468px;
 	position: absolute;
     margin-left: 35px;
     margin-top: -54px;
@@ -3656,7 +3656,7 @@ table.text-center, table.text-center td, table.text-center th {
 
 .login-box-body, .register-box-body {
 	background: #fff;
-	padding: 103px 23.5px 102px 62.36%;
+	padding: 103px 43.5px 102px 62.36%;
 	border-top: 0;
 	color: #666;
 	vertical-align: middle;

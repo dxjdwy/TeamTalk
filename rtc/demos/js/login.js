@@ -131,6 +131,7 @@ function login(event) {
 	// });
 }
 
+var userMap = {};
 function reg_submit(){
 	var reg_username = document.getElementById("reg_username").value.replace(/(^\s*)|(\s*$)/g, "");
 	var reg_passwordI = document.getElementById("reg_passwordI").value.replace(/(^\s*)|(\s*$)/g, "");
@@ -141,11 +142,11 @@ function reg_submit(){
 	}else if(reg_passwordI !=reg_passwordII){
 		alert('密码不一致')
 		return;
-	}else if(vm.userMap.hasOwnProperty(reg_username)){
+	}else if(userMap.hasOwnProperty(reg_username)){
 		alert("用户名已注册");
 		return;
 	}else{
-		vm.userMap[reg_username] = reg_passwordI;
+		userMap[reg_username] = reg_passwordI;
 		alert('注册成功');
 		document.getElementById("reg_username").value = '';
 		document.getElementById("reg_passwordI").value = '';
@@ -154,5 +155,9 @@ function reg_submit(){
 	}			
 }
 
-
+function reg_cancel(){
+    document.getElementById("reg_username").value = '';
+    document.getElementById("reg_passwordI").value = '';
+    document.getElementById("reg_passwordII").value = '';
+}
 

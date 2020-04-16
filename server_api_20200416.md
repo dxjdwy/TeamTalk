@@ -33,18 +33,18 @@
   "data":	//返回数据json
 		[
 			{
-				“mId”:	//会议ID string,后台生成
-        “mAccessId”:	//加入会议的唯一标识
-				“mName”:	//会议名称 string,
-				“mPass”:	//会议密码 string,
-				“mType”:	//会议类型 string,
-				“mSec”:	//会议密级 string,
-				“mDesc”:	//会议描述 string,
+				"mId":,		//会议ID string,后台生成,
+        		"mAccessId":,	//加入会议的唯一标识,
+				"mName":,	//会议名称 string,
+				"mPass":,	//会议密码 string,
+				"mType":,	//会议类型 string,
+				"mSec":	,	//会议密级 string,
+				"mDesc":,	//会议描述 string,
       
-        "mCreateTime"://创建人时间 string,
-        "mBeginTime"://会议开始时间 string,
-        "mEndTime"://会议结束时间 string,
-        "createrId"://创建人ID string,
+        "mCreateTime":,	//创建人时间 string,
+        "mBeginTime":,	//会议开始时间 string,
+        "mEndTime":,	//会议结束时间 string,
+        "createrId":,	//创建人ID string,
         //  "mCreater"://创建人,
       	//  	{
       	//  		"uId"://创建人ID string,
@@ -70,16 +70,16 @@
 
 ```json
 {
-  “mAccessId”:	//加入会议的唯一标识，easyRTC生成？
-	“mName”:	//会议名称 string,
-	“mPass”:	//会议密码 string,
-	“mType”:	//会议类型 string,"普通"｜"讲课"
-	“mSec”:	//会议密级 string,"绝密"|"机密"|"秘密"|"内部"|"公开"
-	“mDesc”:	//会议描述 string,
-  "mCreaterId"://创建人ID string,
-  "mCreateTime"://创建人时间 string,
-  "mBeginTime"://会议开始时间 string,
-  "mEndTime"://会议结束时间 string,
+  "mAccessId":,	//加入会议的唯一标识，easyRTC生成？
+  "mName":,	//会议名称 string,
+  "mPass":,	//会议密码 string,
+  "mType":,	//会议类型 string,"普通"｜"讲课"
+  "mSec":	,	//会议密级 string,
+  "mDesc":,	//会议描述 string,
+  "createrId":,//创建人ID string,
+  "mCreateTime":,//创建人时间 string,
+  "mBeginTime":,//会议开始时间 string,
+  "mEndTime":,//会议结束时间 string,
 }
 ```
 

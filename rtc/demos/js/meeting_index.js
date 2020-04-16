@@ -61,8 +61,7 @@ function meeting_cancel_search(){
 }
 
 function meeting_join1(){
-	var meeting_password2 = document.getElementById("meeting_password2").value.replace(/(^\s*)|(\s*$)/g, "");
-
+	var meeting_password2 = document.getElementById("meeting_password2").value.replace(/(^\s*)|(\s*$)/g, "");    
     if(meeting_password2==''){
 		alert('密码为空')
 		return;

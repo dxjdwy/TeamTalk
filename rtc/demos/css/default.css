@@ -88,12 +88,12 @@
     margin-top: 10px;
 }
 
-#meeting-item{
+.meeting-item{
     display: inline-block;
     color: #333;
 }
 
-#meeting-item:hover{
+.meeting-item:hover{
     color: #0490c7;
     cursor: pointer;
 }

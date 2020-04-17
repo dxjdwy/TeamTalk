@@ -133,7 +133,7 @@ function login(event) {
 		//请求的媒体类型
 		contentType: "application/json;charset=UTF-8",
 		//请求地址
-		url : "http://117.78.9.153:24750/user/login",
+		url : "http://117.78.9.153:24750/teamtalk/v1/user/login",
 		//数据，json字符串
 		data : {
 			uName:textUserII,
@@ -178,16 +178,17 @@ function reg_submit(){
             //请求的媒体类型
             contentType: "application/json;charset=UTF-8",
             //请求地址
-            url : "http://117.78.9.153:24750/user/addUser",
+            url : "http://117.78.9.153:24750/teamtalk/v1/user/addUser",
             //数据，json字符串
             data : {
-				uId:'1234',
+				uId:reg_username,
 				uName:reg_username,
 				uPass:reg_passwordI
 				
 			},
             //请求成功
             success : function(result) {
+				console.log(result);
                 if(result.code == 200){
 					alert('注册成功');
 					document.getElementById("reg_username").value = '';

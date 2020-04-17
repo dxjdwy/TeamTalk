@@ -176,6 +176,27 @@
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal -->
                 </div>
+                <div class="modal fade" id="modal_join_meeting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="modal_join_meeting_title">加入会议</h4>
+                            </div>
+                            <div class="modal-body">
+                             
+                              <div class="form-group has-feedback">
+                                <input type="password" id="modal_join_meeting_password" class="form-control"  placeholder="请输入密码" >
+                              </div>
+                              
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" onclick="modal_join_meeting_submit();">加入会议</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
             </div>
             <div>
                 <ul class="meeting-list-group" id="meetingListGroup" style="list-style: none;"> 

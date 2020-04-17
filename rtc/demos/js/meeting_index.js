@@ -71,38 +71,20 @@ function meeting_submit(){
                                 var liHead = document.createElement("li");
                                 liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
                                 meetingUl.appendChild(liHead);
-                                for(i = 0,len = meetingList.length; i < len; i++){
+                                for(let i = 0,len = meetingList.length; i < len; i++){
                                     var li = document.createElement("li");
-                                    var meetingId = meetingList[i].mId;
-                                    var meetingPass = meetingList[i].mPass;
-                                    var meetingName = meetingList[i].mName;
-                                    var meetingDesc = meetingList[i].mDesc;
+                                    let meetingId = meetingList[i].mId;
+                                    let meetingPass = meetingList[i].mPass;
+                                    let meetingName = meetingList[i].mName;
+                                    let meetingDesc = meetingList[i].mDesc;
+                                    li.onclick = function(){
+                                      $("#modal_join_meeting_title").html("加入会议："+meetingId);
+                                    }
                                     li.innerHTML = '<li class="list-group-item">\n'+
-                                    '<div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting">'+meetingId+'.'+meetingName+'</div>'+
-                                    '<div class="modal fade" id="meeting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
-                                    '<div class="modal-dialog">'+
-                                        '<div class="modal-content">'+
-                                            '<div class="modal-header">'+
-                                            ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-                                                '<h4 class="modal-title" id="myModalLabel">加入会议</h4>'+
-                                            '</div>'+
-                                            '<div class="modal-body">'+
-                                                '<div class="form-group has-feedback">'+
-                                                    ' <input type="text" id="meeting_id" class="form-control" disabled="true" value="" >'+meetingId+
-                                                '</div>' +  
-                                                '<div class="form-group has-feedback">'+
-                                                    ' <input type="password" id="meeting_password2" class="form-control"  placeholder="请输入密码" >'+
-                                                '</div>' +                              
-                                            '</div>'+
-                                            '<div class="modal-footer">'+
-                                                '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
-                                                '<button type="button" class="btn btn-primary" onclick="meeting_join1();">加入会议</button>'+
-                                            '</div>'+
-                                        '</div>'+
-                                    '</div>'+
-                                    '</div>' +
-                                    '<span class="meetingInfo">'+ meetingDesc + '</span>'+
-                                '</li>'
+                                                        '<div id="'+meetingId+'" class="meeting-item" data-toggle="modal" data-target="#modal_join_meeting">'+meetingId+'.'+meetingName+'</div>'+
+                                                        
+                                                        '<span class="meetingInfo">'+ meetingDesc + '</span>'+
+                                                    '</li>';
                                 meetingUl.appendChild(li);
                             }
                         }
@@ -121,7 +103,12 @@ function meeting_submit(){
         });		
 	}			
 }
+function set_meeting_id(id){
+  console.log(id)
+  $("#modal_join_meeting_title").val("加入会议："+id);
+  
 
+}
 function meeting_cancel(){
     document.getElementById("meeting_username").value = '';
     document.getElementById("meeting_passwordI").value = '';
@@ -174,6 +161,8 @@ function meeting_join(){
         })
     }   	
 }
+
+
 
 function meeting_join1(){
 	var meeting_password2 = document.getElementById("meeting_password2").value.replace(/(^\s*)|(\s*$)/g, "");               
@@ -298,38 +287,21 @@ $.ajax({
             var liHead = document.createElement("li");
             liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
             meetingUl.appendChild(liHead);
-            for(i = 0,len = meetingList.length; i < len; i++){
-                var li = document.createElement("li");
-                var meetingId = meetingList[i].mId;
-                var meetingPass = meetingList[i].mPass;
-                var meetingName = meetingList[i].mName;
-                var meetingDesc = meetingList[i].mDesc;
+            for(let i = 0,len = meetingList.length; i < len; i++){
+                let li = document.createElement("li");
+                let meetingId = meetingList[i].mId;
+                let meetingPass = meetingList[i].mPass;
+                let meetingName = meetingList[i].mName;
+                let meetingDesc = meetingList[i].mDesc;
+                li.onclick = function(){
+                  $("#modal_join_meeting_title").html("加入会议："+meetingId);
+                }
                 li.innerHTML = '<li class="list-group-item">\n'+
-                '<div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting" data-orderid="'+meetingId+'">'+meetingId+'.'+meetingName+'</div>\n'+
-                '<div class="modal fade" id="meeting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
-                '<div class="modal-dialog">'+
-                    '<div class="modal-content">'+
-                        '<div class="modal-header">'+
-                        ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-                            '<h4 class="modal-title" id="myModalLabel">加入会议</h4>'+
-                        '</div>'+
-                        '<div class="modal-body">'+
-                         '<div class="form-group has-feedback">'+
-                            ' <input type="text" id="meeting_id1" class="form-control" disabled="true" value="" >'+meetingId+
-                        '</div>' +  
-                            '<div class="form-group has-feedback">'+
-                        ' <input type="password" id="meeting_password2" class="form-control"  placeholder="请输入密码" onclick="meeting_join1()">'+
-                            '</div>' +                              
-                        '</div>'+
-                        '<div class="modal-footer">'+
-                            '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
-                            '<button type="button" class="btn btn-primary" onclick="meeting_join1();">加入会议</button>'+
-                        '</div>'+
-                    '</div>'+
-                '</div>'+
-                '</div>' +
-                '<span class="meetingInfo">'+ meetingDesc + '</span>'+
-            '</li>'
+                                    '<div id="'+meetingId+'" class="meeting-item" data-toggle="modal" data-target="#modal_join_meeting">'+meetingId+'.'+meetingName+'</div>'+
+                                    
+                                    '<span class="meetingInfo">'+ meetingDesc + '</span>'+
+                                '</li>';
+                               
             meetingUl.appendChild(li);
         }
     }

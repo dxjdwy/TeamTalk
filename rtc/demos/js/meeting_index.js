@@ -6,7 +6,7 @@ function meeting_submit(){
     var meeting_type = document.getElementById("meeting_type").value;
     var meeting_sec = document.getElementById("meeting_sec").value;
     var meeting_info = document.getElementById("meeting_info").value.replace(/(^\s*)|(\s*$)/g, "");
-
+    console.log(meeting_username,typeof(meeting_username));
     if(meeting_username==''||meeting_passwordI==''){
 		alert('会议名或密码为空')
 		return;
@@ -18,30 +18,29 @@ function meeting_submit(){
         return;
     }else if(meeting_sec == ''){
 		alert("请选择会议密级");
-        return;
-    // }else if(userMap.hasOwnProperty(meeting_username)){
-	// 	alert("会议名已注册");
-    //     return;   
-	}else{
-        // userMap[meeting_username] = meeting_passwordI;
-        $.ajax({
+        return; 
+	}else{ 
+        var postData = {
+            "mName":meeting_username,	//会议名称 string,
+            "mPass":meeting_passwordI,	//会议密码 string,
+            "mType":meeting_type,	//会议类型 string,"普通"｜"讲课"
+            "mSec":	meeting_sec,	//会议密级 string,
+            "mDesc":meeting_info,	//会议描述 string,
+            
+        };      
+        $.ajax({         
             //请求方式
             type : "POST",
+            dataType: "json",
             //请求的媒体类型
             contentType: "application/json;charset=UTF-8",
             //请求地址
             url : "http://117.78.9.153:24750/teamtalk/v1/meeting/addMeeting",
             //数据，json字符串
-            data : {
-				"mName":meeting_username,	//会议名称 string,
-                "mPass":meeting_passwordI,	//会议密码 string,
-                "mType":meeting_type,	//会议类型 string,"普通"｜"讲课"
-                "mSec":	meeting_sec,	//会议密级 string,
-                "mDesc":meeting_info,	//会议描述 string,
-				
-			},
+            data:JSON.stringify(postData),
             //请求成功
             success : function(result) {
+                
                 if(result.code == 200){
 					alert('创建成功');
                     document.getElementById("meeting_username").value = '';
@@ -51,11 +50,67 @@ function meeting_submit(){
                     document.getElementById("meeting_sec").value = '';
                     document.getElementById("meeting_info").value = '';
                     $('#myModal').modal('hide');
-                    var meetingList = result.data;
-                    var meetingUl = document.getElementById('meeting-list-group');
-                    for(i = 0,len = meetingList.length; i < len; i++){
-                        
+                    $.ajax({
+                        //请求方式
+                        type : "POST",
+                        //请求的媒体类型
+                        contentType: "application/json;charset=UTF-8",
+                        //请求地址
+                        url : "http://117.78.9.153:24750/teamtalk/v1/meeting/getMeetingList",
+                        //数据，json字符串
+                        data : {
+                         
+                        },
+                        //请求成功
+                        success : function(result_get) {
+                            if(result_get.code == 200){
+                                var meetingList = result_get.data;
+                                var meetingUl = document.getElementById('meetingListGroup');
+                                $('#meetingListGroup li').remove();
+                                
+                                var liHead = document.createElement("li");
+                                liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
+                                meetingUl.appendChild(liHead);
+                                for(i = 0,len = meetingList.length; i < len; i++){
+                                    var li = document.createElement("li");
+                                    var meetingId = meetingList[i].mId;
+                                    var meetingPass = meetingList[i].mPass;
+                                    var meetingName = meetingList[i].mName;
+                                    var meetingDesc = meetingList[i].mDesc;
+                                    li.innerHTML = '<li class="list-group-item">\n'+
+                                    '<div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting">'+meetingId+'.'+meetingName+'</div>'+
+                                    '<div class="modal fade" id="meeting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+                                    '<div class="modal-dialog">'+
+                                        '<div class="modal-content">'+
+                                            '<div class="modal-header">'+
+                                            ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+                                                '<h4 class="modal-title" id="myModalLabel">加入会议</h4>'+
+                                            '</div>'+
+                                            '<div class="modal-body">'+
+                                                '<div class="form-group has-feedback">'+
+                                                    ' <input type="text" id="meeting_id" class="form-control" disabled="true" value="" >'+meetingId+
+                                                '</div>' +  
+                                                '<div class="form-group has-feedback">'+
+                                                    ' <input type="password" id="meeting_password2" class="form-control"  placeholder="请输入密码" >'+
+                                                '</div>' +                              
+                                            '</div>'+
+                                            '<div class="modal-footer">'+
+                                                '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
+                                                '<button type="button" class="btn btn-primary" onclick="meeting_join1();">加入会议</button>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '</div>' +
+                                    '<span class="meetingInfo">'+ meetingDesc + '</span>'+
+                                '</li>'
+                                meetingUl.appendChild(li);
+                            }
+                        }
+                    },
+                    error : function(e){
+                        console.log(e.message);                      
                     }
+                    })
 				}
             },
             //请求失败，包含具体的错误信息
@@ -63,8 +118,7 @@ function meeting_submit(){
 				console.log(e.message);
 				
             }
-        });
-		
+        });		
 	}			
 }
 
@@ -85,36 +139,199 @@ function meeting_join(){
 
     if(meeting_id==''||meeting_password1==''){
 		alert('会议名或密码为空')
-		return;
-	}else if(!userMap.hasOwnProperty(meeting_id)){
-        console.log(userMap);
-        
-		alert("会议不存在");
-		return;
-    }else if(userMap[meeting_id] != meeting_password1){
-		alert("密码不正确");
-		return;
-    }else{	
-		alert('加入成功');
-		document.getElementById("meeting_id").value = '';
-		document.getElementById("meeting_password1").value = '';
-		$('#myModal1').modal('hide');
-	}			
+        return;
+    }else{
+        var checkData = {
+            "mId":meeting_id,	//会议名称 string,
+            "mPass":meeting_password1,	//会议密码 string,         
+        };      
+        $.ajax({         
+            //请求方式
+            type : "POST",
+            dataType: "json",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "http://117.78.9.153:24750/teamtalk/v1/meeting/checkMeetingPassword",
+            //数据，json字符串
+            data:JSON.stringify(checkData),
+            //请求成功
+            success : function(result) {                              
+                if(result.code == 200){                   
+					alert('加入成功');
+                    document.getElementById("meeting_id").value = '';
+                    document.getElementById("meeting_password1").value = '';
+                    $('#myModal1').modal('hide');
+                    var url="demo_meeting.html";
+				    window.location.href = url
+                }else if(result.code == 400){
+                    alert(result.message);
+                }
+            },
+            error : function(e){
+                    console.log(e.message);                            
+            }
+        })
+    }   	
 }
 
 function meeting_join1(){
-	var meeting_password2 = document.getElementById("meeting_password2").value.replace(/(^\s*)|(\s*$)/g, "");    
+	var meeting_password2 = document.getElementById("meeting_password2").value.replace(/(^\s*)|(\s*$)/g, "");               
+    // console.log(document.getElementById("meeting-item1"));
+    
+    // var meeting_id = document.getElementById("meeting-item1").value.replace(/([/][^.]+)$/, "");        
+    // console.log(meeting_id,meeting_password2);
+    // $('#meeting').on('show.bs.modal',function (e) {
+    //     var id = $(e.relatedTarget).data('orderid'); //根据上面a标签中传递的data-orderid取值,这里也可以通过data-id取值
+    //     console.log(id);
+    // })
     if(meeting_password2==''){
 		alert('密码为空')
-		return;
-    // }else if(userMap[meeting_id] != meeting_password1){
-	// 	alert("密码不正确");
-	// 	return;
-    }else{	
-		alert('加入成功');
-		document.getElementById("meeting_password2").value = '';
-		$('#meeting1').modal('hide');
-	}			
+        return;
+    }else{
+        var checkData = {
+            "mId":meeting_id,	//会议名称 string,
+            "mPass":meeting_password2,	//会议密码 string,         
+        };      
+        $.ajax({         
+            //请求方式
+            type : "POST",
+            dataType: "json",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "http://117.78.9.153:24750/teamtalk/v1/meeting/checkMeetingPassword",
+            //数据，json字符串
+            data:JSON.stringify(checkData),
+            //请求成功
+            success : function(result) {               
+                if(result.code == 200){
+					alert('加入成功');
+                    document.getElementById("meeting_password1").value = '';
+                    $('#meeting').modal('hide');
+                    var url="demo_meeting.html";
+				    window.location.href = url
+                }
+            },
+            error : function(e){
+                if(e.message == "22"){
+                    alert("密码不正确");
+                }else{
+                    console.log(e.message);
+                }
+                               
+            }
+        })
+    }	
 }
 
-
+// var json1 = {
+// "mId":'1',
+// "mName":'点对点',	//会议名称 string,
+// "mPass":'23',	//会议密码 string,
+// "mType":'meeting_type',	//会议类型 string,"普通"｜"讲课"
+// "mSec":	'meeting_sec',	//会议密级 string,
+// "mDesc":'afra'
+// }
+// var json2 = {
+//     "mId":'2',
+//     "mName":'切切切',	//会议名称 string,
+//     "mPass":'445',	//会议密码 string,
+//     "mType":'meeting_type',	//会议类型 string,"普通"｜"讲课"
+//     "mSec":	'meeting_sec',	//会议密级 string,
+//     "mDesc":'meeeee'
+//     }
+// var meetingList = [json1,json2];
+// var meetingUl = document.getElementById('meetingListGroup');
+// $('meetingUl').html("");
+// var liHead = document.createElement("li");
+// liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
+// meetingUl.appendChild(liHead);
+// for(i = 0,len = meetingList.length; i < len; i++){
+//     var li = document.createElement("li");
+//     var meetingId = meetingList[i].mId;
+//     var meetingPass = meetingList[i].mPass;
+//     var meetingName = meetingList[i].mName;
+//     var meetingDesc = meetingList[i].mDesc;
+//     li.innerHTML = '<li class="list-group-item">\n'+
+//     '<div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting">'+meetingId+'.'+meetingName+'</div>'+
+//     '<div class="modal fade" id="meeting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+//     '<div class="modal-dialog">'+
+//         '<div class="modal-content">'+
+//             '<div class="modal-header">'+
+//             ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+//                 '<h4 class="modal-title" id="myModalLabel">加入会议</h4>'+
+//             '</div>'+
+//             '<div class="modal-body">'+
+//                 '<div class="form-group has-feedback">'+
+//             ' <input type="password" id="meeting_password2" class="form-control"  placeholder="请输入密码" >'+
+//                 '</div>' +                              
+//             '</div>'+
+//             '<div class="modal-footer">'+
+//                 '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
+//                 '<button type="button" class="btn btn-primary" onclick="meeting_join1();">加入会议</button>'+
+//             '</div>'+
+//         '</div>'+
+//     '</div>'+
+//     '</div>' +
+//     '<span class="meetingInfo">'+ meetingDesc + '</span>'+
+// '</li>'
+// meetingUl.appendChild(li);
+// }
+$.ajax({
+    //请求方式
+    type : "POST",
+    //请求的媒体类型
+    contentType: "application/json;charset=UTF-8",
+    //请求地址
+    url : "http://117.78.9.153:24750/teamtalk/v1/meeting/getMeetingList",
+    //数据，json字符串
+    data : {
+     
+    },
+    //请求成功
+    success : function(result) {
+        if(result.code == 200){
+            var meetingList = result.data;
+            var meetingUl = document.getElementById('meetingListGroup');
+            $('meetingUl').html("");
+            var liHead = document.createElement("li");
+            liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
+            meetingUl.appendChild(liHead);
+            for(i = 0,len = meetingList.length; i < len; i++){
+                var li = document.createElement("li");
+                var meetingId = meetingList[i].mId;
+                var meetingPass = meetingList[i].mPass;
+                var meetingName = meetingList[i].mName;
+                var meetingDesc = meetingList[i].mDesc;
+                li.innerHTML = '<li class="list-group-item">\n'+
+                '<div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting" data-orderid="'+meetingId+'">'+meetingId+'.'+meetingName+'</div>\n'+
+                '<div class="modal fade" id="meeting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+                '<div class="modal-dialog">'+
+                    '<div class="modal-content">'+
+                        '<div class="modal-header">'+
+                        ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+                            '<h4 class="modal-title" id="myModalLabel">加入会议</h4>'+
+                        '</div>'+
+                        '<div class="modal-body">'+
+                         '<div class="form-group has-feedback">'+
+                            ' <input type="text" id="meeting_id1" class="form-control" disabled="true" value="" >'+meetingId+
+                        '</div>' +  
+                            '<div class="form-group has-feedback">'+
+                        ' <input type="password" id="meeting_password2" class="form-control"  placeholder="请输入密码" onclick="meeting_join1()">'+
+                            '</div>' +                              
+                        '</div>'+
+                        '<div class="modal-footer">'+
+                            '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
+                            '<button type="button" class="btn btn-primary" onclick="meeting_join1();">加入会议</button>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+                '</div>' +
+                '<span class="meetingInfo">'+ meetingDesc + '</span>'+
+            '</li>'
+            meetingUl.appendChild(li);
+        }
+    }
+}
+})

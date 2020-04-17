@@ -23,7 +23,7 @@
         <script type="text/javascript" src="../easyrtc/easyrtc.js"></script>
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/meeting_index.js" type="text/javascript"></script>
+        
         <script src="js/default.js" type="text/javascript"></script>
              
         <!--hide-->
@@ -157,7 +157,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="meeting_search();">&times;</button>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="meeting_cancel();">&times;</button>
                                 <h4 class="modal-title" id="myModalLabel">搜索会议</h4>
                             </div>
                             <div class="modal-body">
@@ -178,11 +178,11 @@
                 </div>
             </div>
             <div>
-                <ul class="meeting-list-group" id="meeting-list-group"> 
-                    <li class="list-group-item active">
+                <ul class="meeting-list-group" id="meetingListGroup" style="list-style: none;"> 
+                    <!-- <li class="list-group-item active">
                         当前会议
-                    </li>
-                    <li class="list-group-item">
+                    </li> -->
+                    <!-- <li class="list-group-item">
                        <div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting1">会议id会议名</div>
                        <div class="modal fade" id="meeting1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -200,8 +200,8 @@
                                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                     <button type="button" class="btn btn-primary" onclick="meeting_join1();">加入会议</button>
                                 </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal -->
+                            </div>
+                        </div>
                        </div> 
                        <span class="meetingInfo">会议信息</span>
                     </li>
@@ -223,13 +223,14 @@
                                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                     <button type="button" class="btn btn-primary" onclick="meeting_join1();">加入会议</button>
                                 </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal -->
+                            </div>
+                        </div>
                        </div> 
                        <span class="meetingInfo">会议信息</span>
-                     </li>
+                     </li> -->
                 </ul>
             </div>
         </div>
+        <script src="js/meeting_index.js" type="text/javascript"></script>
     </body>
 </html>

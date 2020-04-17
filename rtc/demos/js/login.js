@@ -96,9 +96,7 @@ function login(event) {
 	// 	alert('用户名不存在');
 	// 	return;
 	// }
-	var url="demo_meeting_list.html?userName="+textUserII+"&passWord="+textPasswordII;
-	// var url="demo_meeting_list.html";
-	window.location.href = url
+
 
 	// var data = "username="+vm.username+"&password="+vm.password+"&captcha="+vm.captcha;
 	// $.ajax({
@@ -129,6 +127,32 @@ function login(event) {
 	// 		} */
 	// 	}
 	// });
+	$.ajax({
+		//请求方式
+		type : "POST",
+		//请求的媒体类型
+		contentType: "application/json;charset=UTF-8",
+		//请求地址
+		url : "http://117.78.9.153:24750/user/login",
+		//数据，json字符串
+		data : {
+			uName:textUserII,
+			uPass:textPasswordII
+			
+		},
+		//请求成功
+		success : function(result) {
+			if(result.code == 200){
+				alert('登录成功');
+				var url="meeting_index.html";
+				window.location.href = url
+			}
+		},
+		//请求失败，包含具体的错误信息
+		error : function(e){
+			console.log(e.message);			
+		}
+	});
 }
 
 var userMap = {};
@@ -147,11 +171,40 @@ function reg_submit(){
 		return;
 	}else{
 		userMap[reg_username] = reg_passwordI;
-		alert('注册成功');
-		document.getElementById("reg_username").value = '';
-		document.getElementById("reg_passwordI").value = '';
-		document.getElementById("reg_passwordII").value = '';
-		$('#myModal').modal('hide');
+
+		$.ajax({
+            //请求方式
+            type : "POST",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "http://117.78.9.153:24750/user/addUser",
+            //数据，json字符串
+            data : {
+				uId:'1234',
+				uName:reg_username,
+				uPass:reg_passwordI
+				
+			},
+            //请求成功
+            success : function(result) {
+                if(result.code == 200){
+					alert('注册成功');
+					document.getElementById("reg_username").value = '';
+					document.getElementById("reg_passwordI").value = '';
+					document.getElementById("reg_passwordII").value = '';
+					$('#myModal').modal('hide');
+				}
+            },
+            //请求失败，包含具体的错误信息
+            error : function(e){
+				console.log(e.message);
+				
+            }
+        });
+
+		
+		
 	}			
 }
 

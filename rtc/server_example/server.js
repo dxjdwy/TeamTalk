@@ -52,11 +52,11 @@ easyrtc.events.on("roomJoin", function(connectionObj, roomName, roomParameter, c
 var rtc = easyrtc.listen(app, socketServer, null, function(err, rtcRef) {
     console.log("Initiated");
 
-    rtcRef.events.on("roomCreate", function(appObj, creatorConnectionObj, roomName, roomOptions, callback) {
-        console.log("roomCreate fired! Trying to create: " + roomName);
-
-        appObj.events.defaultListeners.roomCreate(appObj, creatorConnectionObj, roomName, roomOptions, callback);
-    });
+    // rtcRef.events.on("roomCreate", function(appObj, creatorConnectionObj, roomName, roomOptions, callback) {
+    //     console.log("roomCreate fired! Trying to create: " + roomName);
+    //
+    //     appObj.events.defaultListeners.roomCreate(appObj, creatorConnectionObj, roomName, roomOptions, callback);
+    // });
 });
 
 // Listen on port 8080

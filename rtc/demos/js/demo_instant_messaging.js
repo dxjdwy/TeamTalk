@@ -24,6 +24,11 @@
 //POSSIBILITY OF SUCH DAMAGE.
 //
 var selfEasyrtcid = "";
+var url = window.location.href;
+var roomId = url.substring(url.lastIndexOf("=")+1);
+var audioSrc = "./demo_multiparty.html?roomId="+roomId;
+var clientNumber;
+
 function addToConversation(who, msgType, content) {
     // Escape html special characters, then add linefeeds.
     content = content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -32,17 +37,54 @@ function addToConversation(who, msgType, content) {
     "<b>" + who + ":</b>&nbsp;" + content + "<br />";
 }
 
+function joinRoom() {
+    var roomName = roomId;
+    var roomParms = null;
+    easyrtc.getRoomList(function(roomList){
+        for (var item in roomList) {
+            if (roomId === item.valueOf() && item.numberClients < 1) {
+                console.log("会议名称重复，请重命名");
+                clientNumber = item.numberClients;
+                return;
+            }
+        }
+
+        easyrtc.joinRoom(roomName, roomParms,
+            function() {
+                /* we'll geta room entry event for the room we were actually added to */
+            },
+            function(errorCode, errorText, roomName) {
+                easyrtc.showError(errorCode, errorText + ": room name was(" + roomName + ")");
+            });
+    });
+
+
+}
+
 
 function connect() {
     easyrtc.setPeerListener(addToConversation);
     easyrtc.setRoomOccupantListener(convertListToButtons);
     easyrtc.connect("easyrtc.instantMessaging", messageLoginSuccess, messageLoginFailure);
+    easyrtc.leaveRoom("default", (function(){
+        console.log("leave success");
+    }));
+    joinRoom(window.location.href);
+    //initAudio();
+}
+
+function initAudio () {
+    var body = document.getElementsByClassName("sidebar")[0];
+    var iframe = document.createElement("iframe");
+
+    iframe.src = audioSrc;
+    iframe.style = {"visibility":"hidden"}
+    body.appendChild(iframe);
 }
 
 function convertListToButtons (roomName, occupants, isPrimary) {
     var otherClientDiv = document.getElementById('otherClients');
     var others = document.getElementById('others');
-
     while (otherClientDiv.hasChildNodes()) {
         otherClientDiv.removeChild(otherClientDiv.lastChild);
     }
@@ -51,11 +93,13 @@ function convertListToButtons (roomName, occupants, isPrimary) {
     }
 
     // 左侧参会人人员
-    for(var easyrtcid in occupants) {
-        var div = document.createElement('div');
-        var labelLeft = document.createTextNode(easyrtc.idToName(easyrtcid));
-        div.appendChild(labelLeft);
-        others.appendChild(div);
+    if (roomName === roomId) {
+        for(var easyrtcid in occupants) {
+            var div = document.createElement('div');
+            var labelLeft = document.createTextNode(easyrtc.idToName(easyrtcid));
+            div.appendChild(labelLeft);
+            others.appendChild(div);
+        }
     }
 
     // 发送键
@@ -70,6 +114,7 @@ function convertListToButtons (roomName, occupants, isPrimary) {
             }
         };
     }(occupants);
+
     var sendLabel = document.createTextNode("发送 ");
     sendButton.appendChild(sendLabel);
     otherClientDiv.appendChild(sendButton);

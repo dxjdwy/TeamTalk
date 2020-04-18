@@ -127,6 +127,7 @@ function login(event) {
 	// 		} */
 	// 	}
 	// });
+	
 	var loginData={
 		"userId":textUserII,
 		"userName":textUserII,
@@ -136,19 +137,38 @@ function login(event) {
 		//请求方式
 		type : "POST",
 		//请求的媒体类型
-		contentType: "application/json;charset=UTF-8",
+		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 		//请求地址
 		url : "http://117.78.9.153:24750/teamtalk/v1/user/login",
 		//数据，json字符串
 		
-		data :JSON.stringify(loginData),
+		data :{
+			"userId":textUserII,
+		
+		"userPass":textPasswordII
+		},
+		xhrFields:{
+			withCredentials:true
+		},
 		
 		//请求成功
 		success : function(result) {
+			
+			var result = JSON.parse(result);
+			// console.log(result,typeof(result));
+			
 			if(result.code == 200){
+				console.log(result.code);
 				alert('登录成功');
-				var url="meeting_index.html";
-				window.location.href = url
+				if(window.location.pathname == "/demos/login.html"){
+					window.location = "./meeting_index.html"
+				}else{
+					window.location = "./demos/meeting_index.html"
+				}			
+			}else if(result.code == 401){
+                    var url = "login.html"
+                   window.location.href(url);
+                console.log(e.message);
 			}
 		},
 		//请求失败，包含具体的错误信息

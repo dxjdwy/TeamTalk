@@ -226,35 +226,33 @@ function meeting_join1(){
 }
 
 // var json1 = {
-// "mId":'1',
-// "mName":'点对点',	//会议名称 string,
-// "mPass":'23',	//会议密码 string,
-// "mType":'meeting_type',	//会议类型 string,"普通"｜"讲课"
-// "mSec":	'meeting_sec',	//会议密级 string,
-// "mDesc":'afra'
+// "userId":'1',
+// "userName":'点对点',	//会议名称 string,
+// "userSec":	'1',	//会议密级 string,
+// "userRole":'afra'
 // }
 // var json2 = {
-//     "mId":'2',
-//     "mName":'切切切',	//会议名称 string,
-//     "mPass":'445',	//会议密码 string,
-//     "mType":'meeting_type',	//会议类型 string,"普通"｜"讲课"
-//     "mSec":	'meeting_sec',	//会议密级 string,
-//     "mDesc":'meeeee'
+//     "userId":'2',
+//     "userName":'wwww',	//会议名称 string,
+//     "userSec":	'2',	//会议密级 string,
+//     "userRole":'qwqe'
 //     }
 // var meetingList = [json1,json2];
 // var meetingUl = document.getElementById('meetingListGroup');
-// $('meetingUl').html("");
+// $('#meetingListGroup li').remove();
 // var liHead = document.createElement("li");
 // liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
 // meetingUl.appendChild(liHead);
-// for(i = 0,len = meetingList.length; i < len; i++){
-//     var li = document.createElement("li");
-//     var meetingId = meetingList[i].mId;
-//     var meetingPass = meetingList[i].mPass;
-//     var meetingName = meetingList[i].mName;
-//     var meetingDesc = meetingList[i].mDesc;
+// for(let i = 0,len = meetingList.length; i < len; i++){
+//     let li = document.createElement("li");
+//     let userId = meetingList[i].userId;
+//     let userName = meetingList[i].userName;
+//     let userSec = meetingList[i].userSec;
+//     let userRole = meetingList[i].userRole;
+
+    
 //     li.innerHTML = '<li class="list-group-item">\n'+
-//     '<div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting">'+meetingId+'.'+meetingName+'</div>'+
+//     '<div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting">'+userId+'.'+userName+'</div>'+
 //     '<div class="modal fade" id="meeting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
 //     '<div class="modal-dialog">'+
 //         '<div class="modal-content">'+
@@ -264,7 +262,7 @@ function meeting_join1(){
 //             '</div>'+
 //             '<div class="modal-body">'+
 //                 '<div class="form-group has-feedback">'+
-//             ' <input type="password" id="meeting_password2" class="form-control"  placeholder="请输入密码" >'+
+//             ' <input type="password" id="meeting_password2" class="form-control"  placeholder="请输入密码" >'+userId+
 //                 '</div>' +                              
 //             '</div>'+
 //             '<div class="modal-footer">'+
@@ -274,66 +272,63 @@ function meeting_join1(){
 //         '</div>'+
 //     '</div>'+
 //     '</div>' +
-//     '<span class="meetingInfo">'+ meetingDesc + '</span>'+
+//     '<span class="meetingInfo">'+ userSec + '</span>'+
 // '</li>'
 // meetingUl.appendChild(li);
 // }
 
 
-// $.ajax({
-//     //请求方式
-//     type : "POST",
-//     //请求的媒体类型
-//     contentType: "application/json;charset=UTF-8",
-//     //请求地址
-//     url : "http://117.78.9.153:24750/teamtalk/v1/meeting/getMeetingList",
-//     //数据，json字符串
-//     data : {
-     
-//     },
-//     //请求成功
-//     success : function(result) {
-//         if(result.code == 200){
-//             var meetingList = result.data;
-//             var meetingUl = document.getElementById('meetingListGroup');
-//             $('meetingUl').html("");
-//             var liHead = document.createElement("li");
-//             liHead.innerHTML = '<li class="list-group-item active">' + '管辖人员' +'</li>';
-//             meetingUl.appendChild(liHead);
-//             for(i = 0,len = meetingList.length; i < len; i++){
-//                 var li = document.createElement("li");
-//                 var meetingId = meetingList[i].mId;
-//                 var meetingPass = meetingList[i].mPass;
-//                 var meetingName = meetingList[i].mName;
-//                 var meetingDesc = meetingList[i].mDesc;
-//                 li.innerHTML = '<li class="list-group-item">\n'+
-//                 '<div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting" data-orderid="'+meetingId+'">'+meetingId+'.'+meetingName+'</div>\n'+
-//                 '<div class="modal fade" id="meeting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
-//                 '<div class="modal-dialog">'+
-//                     '<div class="modal-content">'+
-//                         '<div class="modal-header">'+
-//                         ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-//                             '<h4 class="modal-title" id="myModalLabel">加入会议</h4>'+
-//                         '</div>'+
-//                         '<div class="modal-body">'+
-//                          '<div class="form-group has-feedback">'+
-//                             ' <input type="text" id="meeting_id1" class="form-control" disabled="true" value="" >'+meetingId+
-//                         '</div>' +  
-//                             '<div class="form-group has-feedback">'+
-//                         ' <input type="password" id="meeting_password2" class="form-control"  placeholder="请输入密码" onclick="meeting_join1()">'+
-//                             '</div>' +                              
-//                         '</div>'+
-//                         '<div class="modal-footer">'+
-//                             '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
-//                             '<button type="button" class="btn btn-primary" onclick="meeting_join1();">加入会议</button>'+
-//                         '</div>'+
-//                     '</div>'+
-//                 '</div>'+
-//                 '</div>' +
-//                 '<span class="meetingInfo">'+ meetingDesc + '</span>'+
-//             '</li>'
-//             meetingUl.appendChild(li);
-//         }
-//     }
-// }
-// })
+$.ajax({
+    //请求方式
+    type : "POST",
+    //请求的媒体类型
+    contentType: "application/json;charset=UTF-8",
+    //请求地址
+    url : "http://117.78.9.153:24750/teamtalk/v1/user/getUserList",
+    //数据，json字符串
+
+    //请求成功
+    success : function(result) {
+        if(result.code == 200){
+            var meetingList = result.data;
+            var meetingUl = document.getElementById('meetingListGroup');
+            $('meetingUl').html("");
+            var liHead = document.createElement("li");
+            liHead.innerHTML = '<li class="list-group-item active">' + '管辖人员' +'</li>';
+            meetingUl.appendChild(liHead);
+            for(i = 0,len = meetingList.length; i < len; i++){
+                let li = document.createElement("li");
+                let userId = meetingList[i].userId;
+                let userName = meetingList[i].userName;
+                let userSec = meetingList[i].userSec;
+                let userRole = meetingList[i].userRole;
+            
+                
+                li.innerHTML = '<li class="list-group-item">\n'+
+                '<div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting">'+userId+'.'+userName+'</div>'+
+                '<div class="modal fade" id="meeting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+                '<div class="modal-dialog">'+
+                    '<div class="modal-content">'+
+                        '<div class="modal-header">'+
+                        ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+                            '<h4 class="modal-title" id="myModalLabel">加入会议</h4>'+
+                        '</div>'+
+                        '<div class="modal-body">'+
+                            '<div class="form-group has-feedback">'+
+                        ' <input type="password" id="meeting_password2" class="form-control"  placeholder="请输入密码" >'+userId+
+                            '</div>' +                              
+                        '</div>'+
+                        '<div class="modal-footer">'+
+                            '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
+                            '<button type="button" class="btn btn-primary" onclick="meeting_join1();">加入会议</button>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+                '</div>' +
+                '<span class="meetingInfo">'+ userSec + '</span>'+
+            '</li>'
+            meetingUl.appendChild(li);
+        }
+    }
+}
+})

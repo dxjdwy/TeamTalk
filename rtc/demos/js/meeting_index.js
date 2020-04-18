@@ -78,7 +78,7 @@ function meeting_submit(){
                                     let meetingName = meetingList[i].mName;
                                     let meetingDesc = meetingList[i].mDesc;
                                     li.onclick = function(){
-                                      $("#modal_join_meeting_title").html("加入会议："+meetingId);
+                                      $("#modal_join_meeting_title").html(meetingId);
                                     }
                                     li.innerHTML = '<li class="list-group-item">\n'+
                                                         '<div id="'+meetingId+'" class="meeting-item" data-toggle="modal" data-target="#modal_join_meeting">'+meetingId+'.'+meetingName+'</div>'+
@@ -103,12 +103,7 @@ function meeting_submit(){
         });		
 	}			
 }
-function set_meeting_id(id){
-  console.log(id)
-  $("#modal_join_meeting_title").val("加入会议："+id);
-  
 
-}
 function meeting_cancel(){
     document.getElementById("meeting_username").value = '';
     document.getElementById("meeting_passwordI").value = '';
@@ -149,7 +144,7 @@ function meeting_join(){
                     document.getElementById("meeting_id").value = '';
                     document.getElementById("meeting_password1").value = '';
                     $('#myModal1').modal('hide');
-                    var url="demo_meeting.html";
+                    var url="demo_meeting.html?id="+meeting_id+"";
 				    window.location.href = url
                 }else if(result.code == 400){
                     alert(result.message);
@@ -164,11 +159,12 @@ function meeting_join(){
 
 
 
-function meeting_join1(){
-	var meeting_password2 = document.getElementById("meeting_password2").value.replace(/(^\s*)|(\s*$)/g, "");               
+function modal_join_meeting_submit(){
+	var meeting_password2 = document.getElementById("modal_join_meeting_password").value.replace(/(^\s*)|(\s*$)/g, "");               
     // console.log(document.getElementById("meeting-item1"));
+    var meeting_id = $("#modal_join_meeting_title").text().replace(/(^\s*)|(\s*$)/g, "");
     
-    // var meeting_id = document.getElementById("meeting-item1").value.replace(/([/][^.]+)$/, "");        
+    // var meeting_id = document.getElementById("modal_join_meeting_title").value.replace(/(^\s*)|(\s*$)/g, "");        
     // console.log(meeting_id,meeting_password2);
     // $('#meeting').on('show.bs.modal',function (e) {
     //     var id = $(e.relatedTarget).data('orderid'); //根据上面a标签中传递的data-orderid取值,这里也可以通过data-id取值
@@ -198,17 +194,14 @@ function meeting_join1(){
 					alert('加入成功');
                     document.getElementById("meeting_password1").value = '';
                     $('#meeting').modal('hide');
-                    var url="demo_meeting.html";
+                    var url="demo_meeting.html?id="+meeting_id+"";
 				    window.location.href = url
+                }else{
+                    alert(result.message)
                 }
             },
             error : function(e){
-                if(e.message == "22"){
-                    alert("密码不正确");
-                }else{
-                    console.log(e.message);
-                }
-                               
+                    console.log(e.message);                               
             }
         })
     }	
@@ -294,7 +287,7 @@ $.ajax({
                 let meetingName = meetingList[i].mName;
                 let meetingDesc = meetingList[i].mDesc;
                 li.onclick = function(){
-                  $("#modal_join_meeting_title").html("加入会议："+meetingId);
+                  $("#modal_join_meeting_title").html(meetingId);
                 }
                 li.innerHTML = '<li class="list-group-item">\n'+
                                     '<div id="'+meetingId+'" class="meeting-item" data-toggle="modal" data-target="#modal_join_meeting">'+meetingId+'.'+meetingName+'</div>'+

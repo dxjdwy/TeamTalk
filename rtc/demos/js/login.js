@@ -127,6 +127,11 @@ function login(event) {
 	// 		} */
 	// 	}
 	// });
+	var loginData={
+		"userId":textUserII,
+		"userName":textUserII,
+		"userPass":textPasswordII	
+	};
 	$.ajax({
 		//请求方式
 		type : "POST",
@@ -135,11 +140,9 @@ function login(event) {
 		//请求地址
 		url : "http://117.78.9.153:24750/teamtalk/v1/user/login",
 		//数据，json字符串
-		data : {
-			uName:textUserII,
-			uPass:textPasswordII
-			
-		},
+		
+		data :JSON.stringify(loginData),
+		
 		//请求成功
 		success : function(result) {
 			if(result.code == 200){
@@ -171,7 +174,11 @@ function reg_submit(){
 		return;
 	}else{
 		userMap[reg_username] = reg_passwordI;
-
+		var regData={
+			"userId":reg_username,
+			"userName":reg_username,
+			"userPass":reg_passwordI	
+		};
 		$.ajax({
             //请求方式
             type : "POST",
@@ -180,12 +187,7 @@ function reg_submit(){
             //请求地址
             url : "http://117.78.9.153:24750/teamtalk/v1/user/addUser",
             //数据，json字符串
-            data : {
-				uId:reg_username,
-				uName:reg_username,
-				uPass:reg_passwordI
-				
-			},
+            data :JSON.stringify(regData),
             //请求成功
             success : function(result) {
 				console.log(result);

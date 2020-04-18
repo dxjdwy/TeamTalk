@@ -1,4 +1,41 @@
-// var userMap = {};
+$(function role_confirm(){
+    var result = {
+        code:200,
+        data:1
+    }
+    // $.ajax({         
+    //     //请求方式
+    //     type : "POST",
+    //     dataType: "json",
+    //     //请求的媒体类型
+    //     contentType: "application/json;charset=UTF-8",
+    //     //请求地址
+    //     url : "http://117.78.9.153:24750/teamtalk/v1/user/getRole",
+    //     //数据，json字符串
+    //     data:JSON.stringify(postData),
+    //     //请求成功
+    //     success : function(result) {
+            
+            if(result.code == 200){
+                if(result.data == 4){
+                    $("#role_manager").hide();
+                    $("#log_manager").hide();
+                }else if(result.data == 3){
+                    $("#role_manager").hide();
+                }else if(result.data == 2){
+                    $("#role_manager").hide();
+                }else if(result.data == 1){
+                    $("#log_manager").hide();
+                }
+            }
+        // },
+    //     //请求失败，包含具体的错误信息
+    //     error : function(e){
+    //         console.log(e.message);
+            
+    //     }
+    // });		
+})
 function meeting_submit(){
 	var meeting_username = document.getElementById("meeting_username").value.replace(/(^\s*)|(\s*$)/g, "");
 	var meeting_passwordI = document.getElementById("meeting_passwordI").value.replace(/(^\s*)|(\s*$)/g, "");
@@ -87,9 +124,15 @@ function meeting_submit(){
                                                     '</li>';
                                 meetingUl.appendChild(li);
                             }
+                        }else if(result.code == 401){
+                            var url="login.html";
+                            window.location.href = url
+                            alert(result.message);
+                                
                         }
                     },
                     error : function(e){
+                    
                         console.log(e.message);                      
                     }
                     })
@@ -148,10 +191,15 @@ function meeting_join(){
 				    window.location.href = url
                 }else if(result.code == 400){
                     alert(result.message);
+                }else if(result.code == 401){
+                    var url="login.html";
+                    window.location.href = url
+                    alert(result.message);
+                        
                 }
             },
             error : function(e){
-                    console.log(e.message);                            
+                console.log(e.message);                             
             }
         })
     }   	
@@ -196,12 +244,14 @@ function modal_join_meeting_submit(){
                     $('#meeting').modal('hide');
                     var url="demo_meeting.html?id="+meeting_id+"";
 				    window.location.href = url
-                }else{
-                    alert(result.message)
+                }else if(result.code == 401){
+                    var url="login.html";
+                    window.location.href = url
+                    alert(result.message);           
                 }
             },
             error : function(e){
-                    console.log(e.message);                               
+                console.log(e.message);                                
             }
         })
     }	
@@ -266,13 +316,50 @@ $.ajax({
     //请求的媒体类型
     contentType: "application/json;charset=UTF-8",
     //请求地址
+    url : "http://117.78.9.153:24750/teamtalk/v1/user/getUserInfo",
+    //数据，json字符串
+    dataType:'json',
+    data : {
+     
+    },
+    xhrFields:{
+        withCredentials:true
+
+    },
+    success : function(result) {
+        // console.log(typeof(result),result);
+    //    var result = JSON.parse(result) ? typeof(result) == String : result;
+        if(result.code == 200){
+            console.log(result.data.username);
+            
+            $("#userInfo").text(result.data.username);
+        }
+    },
+    error :function(e){   
+        console.log(e.message); 
+    }
+    })
+
+
+$.ajax({
+    //请求方式
+    type : "POST",
+    //请求的媒体类型
+    contentType: "application/json;charset=UTF-8",
+    //请求地址
     url : "http://117.78.9.153:24750/teamtalk/v1/meeting/getMeetingList",
     //数据，json字符串
     data : {
      
     },
+    dataType:'json',
+    xhrFields:{
+        withCredentials:true
+    },
     //请求成功
     success : function(result) {
+        // console.log(typeof(result),result);
+    //    var result = JSON.parse(result);
         if(result.code == 200){
             var meetingList = result.data;
             var meetingUl = document.getElementById('meetingListGroup');
@@ -297,6 +384,14 @@ $.ajax({
                                
             meetingUl.appendChild(li);
         }
+    }else if(result.code == 401){
+        var url="login.html";
+        window.location.href = url
+        alert(result.message);
+            
     }
+},
+error :function(e){   
+    console.log(e.message); 
 }
 })

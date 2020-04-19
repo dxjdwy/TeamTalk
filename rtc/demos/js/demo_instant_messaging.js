@@ -70,7 +70,7 @@ function connect() {
         console.log("leave success");
     }));
     joinRoom(window.location.href);
-    //initAudio();
+    initAudio();
 }
 
 function initAudio () {
@@ -92,8 +92,8 @@ function convertListToButtons (roomName, occupants, isPrimary) {
         others.removeChild(others.lastChild);
     }
 
-    // 左侧参会人人员
     if (roomName === roomId) {
+        // 左侧参会人人员
         for(var easyrtcid in occupants) {
             var div = document.createElement('div');
             var labelLeft = document.createTextNode(easyrtc.idToName(easyrtcid));
@@ -109,8 +109,10 @@ function convertListToButtons (roomName, occupants, isPrimary) {
             var text = document.getElementById('sendMessageText').value;
             addToConversation("Me", "message", text);
             document.getElementById('sendMessageText').value = "";
-            for (var easyrtcid in occupants) {
-                sendStuffWS(easyrtcid, text);
+            if (roomId === roomName){
+                for (var easyrtcid in occupants) {
+                    sendStuffWS(easyrtcid, text);
+                }
             }
         };
     }(occupants);

@@ -2,9 +2,11 @@
 
 var activeBox = -1;  // nothing selected
 var aspectRatio = 4/3;  // standard definition video aspect ratio
-var maxCALLERS = 3;
+var maxCALLERS = 1;
 var numVideoOBJS = maxCALLERS+1;
 var layout;
+var url = window.location.href;
+var roomId = url.substring(url.lastIndexOf("=") + 1);
 
 
 easyrtc.dontAddCloseButtons(true);
@@ -29,13 +31,13 @@ function reshapeTextEntryBox(parentw, parenth) {
         top:parenth/4,
         width:parentw/2,
         height: parenth/4
-    }
+    };
 }
 
 function reshapeTextEntryField(parentw, parenth) {
     return {
         width:parentw -40
-    }
+    };
 }
 
 var margin = 20;
@@ -130,7 +132,7 @@ function reshape1of2(parentw, parenth) {
             top:  (parenth -sharedVideoHeight)/2,
             width: sharedVideoWidth,
             height: sharedVideoHeight
-        }
+        };
     }
 }
 
@@ -151,7 +153,7 @@ function reshape2of2(parentw, parenth){
             top:  (parenth -sharedVideoHeight)/2,
             width: sharedVideoWidth,
             height: sharedVideoHeight
-        }
+        };
     }
 }
 
@@ -170,7 +172,7 @@ function reshape1of3(parentw, parenth) {
             top:  (parenth -sharedVideoHeight*2)/3,
             width: sharedVideoWidth,
             height: sharedVideoHeight
-        }
+        };
     }
 }
 
@@ -189,7 +191,7 @@ function reshape2of3(parentw, parenth){
             top:  (parenth -sharedVideoHeight*2)/3,
             width: sharedVideoWidth,
             height: sharedVideoHeight
-        }
+        };
     }
 }
 
@@ -208,7 +210,7 @@ function reshape3of3(parentw, parenth) {
             top:  (parenth -sharedVideoHeight*2)/3*2+ sharedVideoHeight,
             width: sharedVideoWidth,
             height: sharedVideoHeight
-        }
+        };
     }
 }
 
@@ -219,7 +221,7 @@ function reshape1of4(parentw, parenth) {
         top: (parenth - sharedVideoHeight*2)/3,
         width: sharedVideoWidth,
         height: sharedVideoHeight
-    }
+    };
 }
 
 function reshape2of4(parentw, parenth) {
@@ -228,7 +230,7 @@ function reshape2of4(parentw, parenth) {
         top: (parenth - sharedVideoHeight*2)/3,
         width: sharedVideoWidth,
         height: sharedVideoHeight
-    }
+    };
 }
 function reshape3of4(parentw, parenth) {
     return {
@@ -236,7 +238,7 @@ function reshape3of4(parentw, parenth) {
         top: (parenth - sharedVideoHeight*2)/3*2 + sharedVideoHeight,
         width: sharedVideoWidth,
         height: sharedVideoHeight
-    }
+    };
 }
 
 function reshape4of4(parentw, parenth) {
@@ -245,7 +247,7 @@ function reshape4of4(parentw, parenth) {
         top: (parenth - sharedVideoHeight*2)/3*2 + sharedVideoHeight,
         width: sharedVideoWidth,
         height: sharedVideoHeight
-    }
+    };
 }
 
 var boxUsed = [true, false, false, false];
@@ -526,14 +528,15 @@ function muteActiveBox() {
 
 
 function callEverybodyElse(roomName, otherPeople) {
-
     easyrtc.setRoomOccupantListener(null); // so we're only called once.
 
     var list = [];
     var connectCount = 0;
+    // console.log('otherPeople', otherPeople);
     for(var easyrtcid in otherPeople ) {
         list.push(easyrtcid);
     }
+
     //
     // Connect in reverse order. Latter arriving people are more likely to have
     // empty slots.
@@ -542,12 +545,14 @@ function callEverybodyElse(roomName, otherPeople) {
         function callSuccess() {
             connectCount++;
             if( connectCount < maxCALLERS && position > 0) {
+            // if( position > 0) {
                 establishConnection(position-1);
             }
         }
         function callFailure(errorCode, errorText) {
             easyrtc.showError(errorCode, errorText);
             if( connectCount < maxCALLERS && position > 0) {
+            // if(position > 0) {
                 establishConnection(position-1);
             }
         }
@@ -575,14 +580,14 @@ function sendText(e) {
     document.getElementById('textentryBox').style.display = "none";
     document.getElementById('textEntryButton').style.display = "block";
     var stringToSend = document.getElementById('textentryField').value;
-    if( stringToSend && stringToSend != "") {
-        for(var i = 0; i < maxCALLERS; i++ ) {
-            var easyrtcid = easyrtc.getIthCaller(i);
-            if( easyrtcid && easyrtcid != "") {
-                easyrtc.sendPeerMessage(easyrtcid, "im",  stringToSend);
-            }
-        }
-    }
+    // if( stringToSend && stringToSend != "") {
+    //     for(var i = 0; i < maxCALLERS; i++ ) {
+    //         var easyrtcid = easyrtc.getIthCaller(i);
+    //         if( easyrtcid && easyrtcid != "") {
+    //             easyrtc.sendPeerMessage(easyrtcid, "im",  stringToSend);
+    //         }
+    //     }
+    // }
     return false;
 }
 
@@ -670,25 +675,36 @@ function messageListener(easyrtcid, msgType, content) {
     }
 }
 
+function addAudio (index) {
+    var audio = document.createElement("audio");
+    audio.id = "box" + index;
+    audio.style.visibility = "hidden";
+    audio.playsinline = "playsinline";
+    audio.class="transit boxCommon thumbCommon"
+    var fullpage = document.getElementById("fullpage");
+    fullpage.appendChild(audio);
+}
+
 
 function appInit() {
-
     // Prep for the top-down layout manager
     setReshaper('fullpage', reshapeFull);
     for(var i = 0; i < numVideoOBJS; i++) {
         prepVideoBox(i);
     }
-    // setReshaper('killButton', killButtonReshaper);
-    // setReshaper('muteButton', muteButtonReshaper);
-    // setReshaper('textentryBox', reshapeTextEntryBox);
-    // setReshaper('textentryField', reshapeTextEntryField);
-    // setReshaper('textEntryButton', reshapeTextEntryButton);
-    //
-    // updateMuteImage(false);
-    // window.onresize = handleWindowResize;
-    // handleWindowResize(); //initial call of the top-down layout manager
+    setReshaper('killButton', killButtonReshaper);
+    setReshaper('muteButton', muteButtonReshaper);
+    setReshaper('textentryBox', reshapeTextEntryBox);
+    setReshaper('textentryField', reshapeTextEntryField);
+    setReshaper('textEntryButton', reshapeTextEntryButton);
 
+    updateMuteImage(false);
+    window.onresize = handleWindowResize;
+    handleWindowResize(); //initial call of the top-down layout manager
 
+    console.log("roomData", easyrtc.roomData);
+
+    roomId && easyrtc.joinRoom(roomId, null);
     easyrtc.setRoomOccupantListener(callEverybodyElse);
     easyrtc.easyApp("easyrtc.multiparty", "box0", ["box1", "box2", "box3"], loginSuccess);
     easyrtc.setPeerListener(messageListener);
@@ -697,6 +713,10 @@ function appInit() {
     });
     easyrtc.setOnCall( function(easyrtcid, slot) {
         console.log("getConnection count="  + easyrtc.getConnectionCount() );
+        var connectionCount = easyrtc.getConnectionCount() || 0;
+        maxCALLERS = connectionCount;
+        numVideoOBJS = maxCALLERS + 1;
+        addAudio(connectionCount + 1);
         boxUsed[slot+1] = true;
         if(activeBox == 0 ) { // first connection
             collapseToThumb();

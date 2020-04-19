@@ -177,7 +177,49 @@ function messageLoginSuccess(easyrtcid) {
     document.getElementById("mine").innerHTML = easyrtcid + " (你的账号)";
 }
 
-
 function messageLoginFailure(errorCode, message) {
     easyrtc.showError(errorCode, message);
+}
+function quitMeeting() {
+    var clientList = easyrtc.roomData[roomId];
+    var clientNumber = 0;
+    for (var item in clientList) {
+        clientNumber++;
+    }
+    console.log(clientNumber);
+    if (clientNumber < 2) {
+        $.ajax({
+            //请求方式
+            type : "POST",
+            //请求的媒体类型
+            contentType: "application/json",
+            //请求地址
+            url : "http://117.78.9.153:24750/teamtalk/v1/meeting/endMeeting",
+            //数据，json字符串
+
+            data :{
+                "mId":roomId,
+            },
+            xhrFields:{
+                withCredentials:true
+            },
+
+            //请求成功
+            success : function(result) {
+                if(result.code == 200){
+                    console.log(result,typeof(result));
+                    easyrtc.leaveRoom(roomId, null, null);
+                    window.location.href = '/demos/meeting_index.html';
+                }else if(result.code == 401){
+                }
+            },
+            //请求失败，包含具体的错误信息
+            error : function(e){
+                console.log(e.message);
+            }
+        });
+    } else {
+        easyrtc.leaveRoom(roomId, null, null);
+        window.location.href = '/demos/meeting_index.html';
+    }
 }

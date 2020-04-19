@@ -54,13 +54,13 @@ function addMediaStreamToDiv(divId, stream, streamName, isLocal)
     container.style.marginBottom = "10px";
     var formattedName = streamName.replace("(", "<br>").replace(")", "");
     var labelBlock = document.createElement("div");
-    labelBlock.style.width = "220px";
+    labelBlock.style.width = "100px";
     labelBlock.style.cssFloat = "left";
     labelBlock.innerHTML = "<pre>" + formattedName + "</pre><br>";
     container.appendChild(labelBlock);
     var video = document.createElement("video");
-    video.width = 320;
-    video.height = 240;
+    video.width = 960;
+    video.height = 720;
     video.muted = isLocal;
     video.style.verticalAlign = "middle";
     container.appendChild(video);
@@ -74,7 +74,7 @@ function addMediaStreamToDiv(divId, stream, streamName, isLocal)
 
 function createLocalVideo(stream, streamName) {
     var labelBlock = addMediaStreamToDiv("localVideos", stream, streamName, true);
-    var closeButton = createLabelledButton("close");
+    var closeButton = createLabelledButton("关闭");
     closeButton.onclick = function() {
         easyrtc.closeLocalStream(streamName);
         labelBlock.parentNode.parentNode.removeChild(labelBlock.parentNode);
@@ -85,7 +85,7 @@ function createLocalVideo(stream, streamName) {
 var localStreamCount = 0;
 
 function addSrcButton(buttonLabel, videoId) {
-    var button = createLabelledButton(buttonLabel);
+    // var button = createLabelledButton(buttonLabel);
     button.onclick = function() {
         var streamName = buttonLabel + "_" +  localStreamCount;
         localStreamCount++;
@@ -120,7 +120,7 @@ function connect() {
     //
     // add an extra button for screen sharing
     //
-    var screenShareButton = createLabelledButton("Desktop capture/share");
+    var screenShareButton = createLabelledButton("分享桌面");
     var numScreens = 0;
 
     screenShareButton.onclick = function() {
@@ -199,7 +199,7 @@ function performCall(targetEasyrtcId) {
 
 
 function loginSuccess(easyrtcid) {
-    disable("connectButton");
+    // disable("connectButton");
     //  enable("disconnectButton");
     enable('otherClients');
     selfEasyrtcid = easyrtcid;

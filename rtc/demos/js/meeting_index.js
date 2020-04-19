@@ -75,6 +75,9 @@ function meeting_submit(){
             url : "http://117.78.9.153:24750/teamtalk/v1/meeting/addMeeting",
             //数据，json字符串
             data:JSON.stringify(postData),
+            xhrFields:{
+                withCredentials:true
+            },
             //请求成功
             success : function(result) {
                 
@@ -95,11 +98,16 @@ function meeting_submit(){
                         //请求地址
                         url : "http://117.78.9.153:24750/teamtalk/v1/meeting/getMeetingList",
                         //数据，json字符串
+                        dataType:'json',
                         data : {
                          
                         },
+                        xhrFields:{
+                            withCredentials:true
+                        },
                         //请求成功
                         success : function(result_get) {
+
                             if(result_get.code == 200){
                                 var meetingList = result_get.data;
                                 var meetingUl = document.getElementById('meetingListGroup');
@@ -124,10 +132,10 @@ function meeting_submit(){
                                                     '</li>';
                                 meetingUl.appendChild(li);
                             }
-                        }else if(result.code == 401){
+                        }else if(result_get.code == 401){
                             var url="login.html";
                             window.location.href = url
-                            alert(result.message);
+                            alert(result_get.message);
                                 
                         }
                     },
@@ -136,7 +144,12 @@ function meeting_submit(){
                         console.log(e.message);                      
                     }
                     })
-				}
+				}else if(result.code == 401){
+                    var url="login.html";
+                    window.location.href = url
+                    alert(result.message);
+                        
+                }
             },
             //请求失败，包含具体的错误信息
             error : function(e){
@@ -181,6 +194,9 @@ function meeting_join(){
             //数据，json字符串
             data:JSON.stringify(checkData),
             //请求成功
+            xhrFields:{
+                withCredentials:true
+            },
             success : function(result) {                              
                 if(result.code == 200){                   
 					alert('加入成功');
@@ -236,6 +252,9 @@ function modal_join_meeting_submit(){
             url : "http://117.78.9.153:24750/teamtalk/v1/meeting/checkMeetingPassword",
             //数据，json字符串
             data:JSON.stringify(checkData),
+            xhrFields:{
+                withCredentials:true
+            },
             //请求成功
             success : function(result) {               
                 if(result.code == 200){

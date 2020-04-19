@@ -211,8 +211,7 @@ function meeting_join(){
                     document.getElementById("meeting_id").value = '';
                     document.getElementById("meeting_password1").value = '';
                     $('#myModal1').modal('hide');
-                    var url="demo_meeting.html?id="+meeting_id+"";
-				    window.location.href = url
+				    window.location.href = "demo_meeting.html?roomId="+meeting_id;
                 }else if(result.code == 400){
                     alert(result.message);
                 }else if(result.code == 401){
@@ -269,8 +268,7 @@ function modal_join_meeting_submit(){
 					alert('加入成功');
                     document.getElementById("meeting_password1").value = '';
                     $('#meeting').modal('hide');
-                    var url="demo_meeting.html?id="+meeting_id+"";
-				    window.location.href = url
+				    window.location.href = "demo_meeting.html?roomId="+meeting_id;
                 }else if(result.code == 401){
                     var url="login.html";
                     window.location.href = url

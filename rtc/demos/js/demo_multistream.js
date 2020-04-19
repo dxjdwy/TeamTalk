@@ -193,6 +193,7 @@ function clearConnectList() {
 
 
 function convertListToButtons(roomName, occupants, isPrimary) {
+    console.log(occupants);
     clearConnectList();
     var otherClientDiv = document.getElementById('otherClients');
     for (var easyrtcid in occupants) {

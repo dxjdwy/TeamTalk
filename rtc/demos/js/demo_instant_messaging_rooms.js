@@ -121,7 +121,6 @@ function addRoom(roomName, parmString, userAdded) {
     }
     if (userAdded) {
         console.log("calling joinRoom(" + roomName + ") because it was a user action ");
-
         easyrtc.joinRoom(roomName, roomParms,
                 function() {
                    /* we'll geta room entry event for the room we were actually added to */

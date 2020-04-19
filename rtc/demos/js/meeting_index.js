@@ -20,7 +20,7 @@ $(function role_confirm(){
         success : function(result) {
             
             if(result.code == 200){
-                console.log(result.data.userRole,typeof(result.data.userRole));
+                // console.log(result.data.userRole,typeof(result.data.userRole));
                 
                 if(result.data.userRole == "4"){
                     $("#role_manager").hide();
@@ -51,7 +51,7 @@ function meeting_submit(){
     var meeting_type = document.getElementById("meeting_type").value;
     var meeting_sec = document.getElementById("meeting_sec").value;
     var meeting_info = document.getElementById("meeting_info").value.replace(/(^\s*)|(\s*$)/g, "");
-    console.log(meeting_username,typeof(meeting_username));
+    // console.log(meeting_username,typeof(meeting_username));
     if(meeting_username==''||meeting_passwordI==''){
 		alert('会议名或密码为空')
 		return;

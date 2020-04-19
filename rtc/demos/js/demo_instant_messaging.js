@@ -29,6 +29,41 @@ var roomId = url.substring(url.lastIndexOf("=")+1);
 var audioSrc = "./demo_multiparty.html?roomId="+roomId;
 var clientNumber;
 
+$.ajax({
+    //请求方式
+    type : "POST",
+    //请求的媒体类型
+    contentType: "application/json;charset=UTF-8",
+    //请求地址
+    url : "http://117.78.9.153:24750/teamtalk/v1/user/getUserInfo",
+    //数据，json字符串
+    dataType:'json',
+    data : {
+     
+    },
+    xhrFields:{
+        withCredentials:true
+
+    },
+    success : function(result) {
+        // console.log(typeof(result),result);
+    //    var result = JSON.parse(result) ? typeof(result) == String : result;
+        if(result.code == 200){
+            console.log(result.data.username);
+            
+            $("#userInfo").text(result.data.username);
+        }else if(result.code == 401){
+            var url="login.html";
+            window.location.href = url
+            alert(result.message);
+                
+        }
+    },
+    error :function(e){   
+        console.log(e.message); 
+    }
+    })
+
 function addToConversation(who, msgType, content) {
     // Escape html special characters, then add linefeeds.
     content = content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');

@@ -1,40 +1,48 @@
 $(function role_confirm(){
-    var result = {
-        code:200,
-        data:1
-    }
-    // $.ajax({         
-    //     //请求方式
-    //     type : "POST",
-    //     dataType: "json",
-    //     //请求的媒体类型
-    //     contentType: "application/json;charset=UTF-8",
-    //     //请求地址
-    //     url : "http://117.78.9.153:24750/teamtalk/v1/user/getRole",
-    //     //数据，json字符串
-    //     data:JSON.stringify(postData),
-    //     //请求成功
-    //     success : function(result) {
+    // var result = {
+    //     code:200,
+    //     data:1
+    // }
+    $.ajax({         
+        //请求方式
+        type : "POST",
+        dataType: "json",
+        //请求的媒体类型
+        contentType: "application/json;charset=UTF-8",
+        //请求地址
+        url : "http://117.78.9.153:24750/teamtalk/v1/user/getUserInfo",
+        //数据，json字符串
+        // data:JSON.stringify(postData),
+        xhrFields:{
+            withCredentials:true
+        },
+        //请求成功
+        success : function(result) {
             
             if(result.code == 200){
-                if(result.data == 4){
+                console.log(result.data.userRole,typeof(result.data.userRole));
+                
+                if(result.data.userRole == "4"){
                     $("#role_manager").hide();
                     $("#log_manager").hide();
-                }else if(result.data == 3){
+                }else if(result.data.userRole == "3"){
                     $("#role_manager").hide();
-                }else if(result.data == 2){
-                    $("#role_manager").hide();
-                }else if(result.data == 1){
+                }else if(result.data.userRole == "1"){
                     $("#log_manager").hide();
                 }
+            }else if(result.code == 401){
+                var url="login.html";
+                window.location.href = url
+                alert(result.message);
+                    
             }
-        // },
-    //     //请求失败，包含具体的错误信息
-    //     error : function(e){
-    //         console.log(e.message);
+        },
+        //请求失败，包含具体的错误信息
+        error : function(e){
+            console.log(e.message);
             
-    //     }
-    // });		
+        }
+    });		
 })
 function meeting_submit(){
 	var meeting_username = document.getElementById("meeting_username").value.replace(/(^\s*)|(\s*$)/g, "");
@@ -352,6 +360,11 @@ $.ajax({
             console.log(result.data.username);
             
             $("#userInfo").text(result.data.username);
+        }else if(result.code == 401){
+            var url="login.html";
+            window.location.href = url
+            alert(result.message);
+                
         }
     },
     error :function(e){   

@@ -1,51 +1,66 @@
-$(function role_confirm(){
-    var result = {
-        code:200,
-        data:1
-    }
-    // $.ajax({         
-    //     //请求方式
-    //     type : "POST",
-    //     dataType: "json",
-    //     //请求的媒体类型
-    //     contentType: "application/json;charset=UTF-8",
-    //     //请求地址
-    //     url : "http://117.78.9.153:24750/teamtalk/v1/user/getRole",
-    //     //数据，json字符串
-    //     data:JSON.stringify(postData),
-    //     //请求成功
-    //     success : function(result) {         
-            if(result.code == 200){
-                if(result.data == 1){
-                    $("#log_manager").hide();
-                }
+
+$.ajax({         
+    //请求方式
+    type : "POST",
+    dataType: "json",
+    //请求的媒体类型
+    contentType: "application/json;charset=UTF-8",
+    //请求地址
+    url : "http://117.78.9.153:24750/teamtalk/v1/user/getUserInfo",
+    //数据，json字符串
+    // data:JSON.stringify(postData),
+    xhrFields:{
+        withCredentials:true
+    },
+    //请求成功
+    success : function(result) {         
+        if(result.code == 200){
+            $("#userInfo").text(result.data.username);
+            if(result.data.userRole == "1"){
+                $("#log_manager").hide();
+                $("#role_type_div").hide();
+            }else if(result.data.userRole == "2"){
+                $("#role_password_div1").hide();
+                $("#role_password_div2").hide();
             }
-        // },
-    //     //请求失败，包含具体的错误信息
-    //     error : function(e){
-    //         console.log(e.message);
-            
-    //     }
-    // });		
-})
+        }else if(result.code == 401){
+            var url = "login.html"
+            window.location.href(url);
+        console.log(e.message);
+    }
+    },
+    //请求失败，包含具体的错误信息
+    error : function(e){
+        console.log(e.message);
+        
+    }
+});		
+
 
 function user_cancel(){
-    document.getElementById("role_type").value = '';
+    document.getElementById("role_password1").value='';
+    document.getElementById("role_password2").value='';
 }
 
 
 
 function role_management(){
+
     var role_type = document.getElementById("role_type").value; 
     var userId = $("#userId").text().replace(/(^\s*)|(\s*$)/g, "");
-              
-    if(role_type==''){
-		alert('权限为空')
+    var role_password1 = document.getElementById("role_password1").value.replace(/(^\s*)|(\s*$)/g, ""); 
+    var role_password2 = document.getElementById("role_password2").value.replace(/(^\s*)|(\s*$)/g, ""); 
+    console.log(role_type,role_password1);
+            
+   
+    if(role_password1 != role_password2){
+        alert('密码输入错误')
         return;
     }else{
         var checkData = {
             "userId":userId,	
-            "userRole":role_type,	        
+            "userRole":role_type,
+            "userPass":	role_password2        
         };      
         $.ajax({         
             //请求方式
@@ -57,12 +72,17 @@ function role_management(){
             url : "http://117.78.9.153:24750/teamtalk/v1/user/updateUser",
             //数据，json字符串
             data:JSON.stringify(checkData),
+            xhrFields:{
+                withCredentials:true
+            },
             //请求成功
             success : function(result) {               
                 if(result.code == 200){
 					alert('修改成功');
-                    document.getElementById("role_type").value = '';
+                    document.getElementById("role_password1").value='';
+                    document.getElementById("role_password2").value='';
                     $('#userModal').modal('hide');
+                    roleList();
                 }else if(result.code == 401){
                     var url="login.html";
                     window.location.href = url
@@ -132,52 +152,58 @@ function role_management(){
 // meetingUl.appendChild(li);
 // }
 
-
-$.ajax({
-    //请求方式
-    type : "POST",
-    //请求的媒体类型
-    contentType: "application/json;charset=UTF-8",
-    //请求地址
-    url : "http://117.78.9.153:24750/teamtalk/v1/user/getUserList",
-    //数据，json字符串
-
-    //请求成功
-    success : function(result) {
-        if(result.code == 200){
-            var userList = result.data;
-            var userUl = document.getElementById('userListGroup');
-            $('#userListGroup li').remove();
-            var liHead = document.createElement("li");
-            liHead.innerHTML = '<li class="list-group-item active">' + '管辖人员' +'</li>';
-            userUl.appendChild(liHead);
-            
-            for(i = 0,len = userList.length; i < len; i++){
-                let li = document.createElement("li");
-                let userId = userList[i].userId;
-                let userName = userList[i].userName;
-                // let userSec = userList[i].userSec;
-                let userRole = userList[i].userRole;
-                li.onclick= function(){
-                    $("#userId").html(userId);
+function roleList(){ 
+    $.ajax({
+        //请求方式
+        type : "POST",
+        //请求的媒体类型
+        contentType: "application/json;charset=UTF-8",
+        //请求地址
+        url : "http://117.78.9.153:24750/teamtalk/v1/user/getUserList",
+        //数据，json字符串
+        xhrFields:{
+            withCredentials:true
+        },
+        dataType: "json",
+        //请求成功
+        success : function(result) {
+            if(result.code == 200){
+                var userList = result.data;
+                var userUl = document.getElementById('userListGroup');
+                $('#userListGroup li').remove();
+                var liHead = document.createElement("li");
+                liHead.innerHTML = '<li class="list-group-item active">' + '管辖人员' +'</li>';
+                userUl.appendChild(liHead);
+                
+                for(i = 0,len = userList.length; i < len; i++){
+                    let li = document.createElement("li");
+                    let userId = userList[i].userId;
+                    let userName = userList[i].userName;
+                    // let userSec = userList[i].userSec;
+                    let userRole = userList[i].userRole;
+                    li.onclick= function(){
+                        $("#userId").html(userId);
+                        $("#role_type").val(userRole);
+                    }
+                    
+                    li.innerHTML = '<li class="list-group-item">\n'+
+                    '<div id="" class="meeting-item" onclick="" data-toggle="modal" data-target="#userModal">'+userId+'.'+userName+'</div>'+
+                    
+                    '<span class="meetingInfo">'+ userRole + '</span>'+
+                    '</li>'
+                    userUl.appendChild(li);
                 }
-                
-                li.innerHTML = '<li class="list-group-item">\n'+
-                '<div id="" class="meeting-item" onclick="" data-toggle="modal" data-target="#userModal">'+userId+'.'+userName+'</div>'+
-                
-                '<span class="meetingInfo">'+ userRole + '</span>'+
-            '</li>'
-            userUl.appendChild(li);
-        }
-    }else if(result.code == 401){
-        var url="login.html";
-        window.location.href = url
-        alert(result.message);
-            
+            }else if(result.code == 401){
+                var url="login.html";
+                window.location.href = url
+                alert(result.message);
+                    
+            }
+        },
+    error:function(e){
+        
+        console.log(e.message); 
     }
-},
-error:function(e){
-    
-    console.log(e.message); 
-}
-})
+    })
+};
+window.onload = roleList();

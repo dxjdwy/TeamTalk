@@ -188,6 +188,7 @@ function quitMeeting() {
     }
     console.log(clientNumber);
     if (clientNumber < 2) {
+        var params = {"mId":roomId}
         $.ajax({
             //请求方式
             type : "POST",
@@ -197,9 +198,7 @@ function quitMeeting() {
             url : "http://117.78.9.153:24750/teamtalk/v1/meeting/endMeeting",
             //数据，json字符串
 
-            data :{
-                "mId":roomId,
-            },
+            data :JSON.stringify(params),
             xhrFields:{
                 withCredentials:true
             },

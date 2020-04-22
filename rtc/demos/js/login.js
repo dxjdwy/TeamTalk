@@ -136,6 +136,7 @@ function login(event) {
 	$.ajax({
 		//请求方式
 		type : "POST",
+		dataType:'json',
 		//请求的媒体类型
 		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 		//请求地址
@@ -154,7 +155,7 @@ function login(event) {
 		//请求成功
 		success : function(result) {
 			
-			var result = JSON.parse(result);
+			// var result = JSON.parse(result);
 			// console.log(result,typeof(result));
 			
 			if(result.code == 200){
@@ -205,7 +206,12 @@ function reg_submit(){
             //请求的媒体类型
             contentType: "application/json;charset=UTF-8",
             //请求地址
-            url : "http://117.78.9.153:24750/teamtalk/v1/user/addUser",
+			url : "http://117.78.9.153:24750/teamtalk/v1/user/addUser",
+			dataType:'json',
+			xhrFields:{
+				withCredentials:true
+		
+			},
             //数据，json字符串
             data :JSON.stringify(regData),
             //请求成功

@@ -178,7 +178,7 @@ function roleList(){
                 for(i = 0,len = userList.length; i < len; i++){
                     let li = document.createElement("li");
                     let userId = userList[i].userId;
-                    let userName = userList[i].userName;
+                    let userName = userList[i].username;
                     // let userSec = userList[i].userSec;
                     let userRole = userList[i].userRole;
                     li.onclick= function(){

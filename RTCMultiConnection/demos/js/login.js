@@ -163,7 +163,7 @@ function login(event) {
 				if(window.location.pathname == "/demos/login.html"){
 					window.location = "./meeting_index.html"
 				}else{
-					window.location = "./demos/meeting_index.html"
+					window.location = "./meeting_index.html"
 				}			
 			}else if(result.code == 401){
                     var url = "login.html"

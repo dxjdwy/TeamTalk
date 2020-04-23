@@ -157,7 +157,7 @@ function serverHandler(request, response) {
                     filename += resolveURL('/demos/MultiRTC/index.html');
                 } else if (filename.indexOf(resolveURL('/admin/')) !== -1) {
                     filename = filename.replace(resolveURL('/admin/'), '');
-                    filename += resolveURL('/admin/index.html');
+                    filename += resolveURL('/admin/login.html');
                 } else if (filename.indexOf(resolveURL('/demos/dashboard/')) !== -1) {
                     filename = filename.replace(resolveURL('/demos/dashboard/'), '');
                     filename += resolveURL('/demos/dashboard/index.html');
@@ -167,7 +167,7 @@ function serverHandler(request, response) {
                 } else if (filename.indexOf(resolveURL('/demos')) !== -1) {
                     filename = filename.replace(resolveURL('/demos/'), '');
                     filename = filename.replace(resolveURL('/demos'), '');
-                    filename += resolveURL('/demos/index.html');
+                    filename += resolveURL('/demos/login.html');
                 } else {
                     filename += resolveURL(config.homePage);
                 }

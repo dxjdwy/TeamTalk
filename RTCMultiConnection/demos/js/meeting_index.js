@@ -117,27 +117,52 @@ function meeting_submit(){
                         success : function(result_get) {
 
                             if(result_get.code == 200){
-                                var meetingList = result_get.data;
+                                var meetingList = result.data;
                                 var meetingUl = document.getElementById('meetingListGroup');
                                 $('#meetingListGroup li').remove();
-                                
-                                var liHead = document.createElement("li");
-                                liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
-                                meetingUl.appendChild(liHead);
-                                for(let i = 0,len = meetingList.length; i < len; i++){
-                                    var li = document.createElement("li");
+                                // var liHead = document.createElement("li");
+                                // liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
+                                // meetingUl.appendChild(liHead);
+                                for(let i = meetingList.length -1 ;i >= 0 ; i--){
+                                    let li = document.createElement("li");
                                     let meetingId = meetingList[i].mId;
-                                    let meetingPass = meetingList[i].mPass;
+                                    let mBeginTime = meetingList[i].mBeginTime;
+                                    let mEndTime = meetingList[i].mEndTime;
                                     let meetingName = meetingList[i].mName;
                                     let meetingDesc = meetingList[i].mDesc;
+                                    let meetingSec = meetingList[i].mSec;
+                                    // let uId = meetingList[i].mCreater.uId;
+                                    let uName = meetingList[i].createrId;
                                     li.onclick = function(){
                                       $("#modal_join_meeting_title").html(meetingId);
-                                    }
-                                    li.innerHTML = '<li class="list-group-item">\n'+
-                                                        '<div id="'+meetingId+'" class="meeting-item" data-toggle="modal" data-target="#modal_join_meeting">'+meetingId+'.'+meetingName+'</div>'+
+                                    };
+                                    $("#meetingListGroup li").css("display","inline-block") 
+                                    // li.innerHTML = '<li class="list-group-item">\n'+
+                                    //                     '<div id="'+meetingId+'" class="meeting-item" data-toggle="modal" data-target="#modal_join_meeting">'+meetingId+'.'+meetingName+'</div>'+
                                                         
-                                                        '<span class="meetingInfo">'+ meetingDesc + '</span>'+
-                                                    '</li>';
+                                    //                     '<span class="meetingInfo">'+ meetingDesc + '</span>'+
+                                    //                 '</li>';
+                                    li.innerHTML = `
+                                    <div class="meeting_container" style="display:inline-block">
+                                        <div class="card-head">
+                                            <h4 class="meeting-id">会议id：${meetingId}</h4>
+                                            <div class="meeting-time">${mBeginTime}-${mEndTime}</div>
+                                        
+                                            <div class="card-body">
+                                                <div class="meeting-name">${meetingName}</div>
+                                                <div class="meeting-info">
+                                                    <p class="meeting-sec">[${meetingSec}]</p>
+                                                    <p class="meeting-role">创建人：${uName}</p>
+                                                </div>                       
+                                                <p class="meeting-description">
+                                                    ${meetingDesc}
+                                                </p>
+                                            </div>
+                                                                
+                                        </div>                             
+                                        <button class="meeting-join" data-toggle="modal" data-target="#modal_join_meeting">加入</button>
+                                    </div>`
+                                                   
                                 meetingUl.appendChild(li);
                             }
                         }else if(result_get.code == 401){
@@ -393,24 +418,49 @@ $.ajax({
         if(result.code == 200){
             var meetingList = result.data;
             var meetingUl = document.getElementById('meetingListGroup');
-            $('meetingUl').html("");
-            var liHead = document.createElement("li");
-            liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
-            meetingUl.appendChild(liHead);
-            for(let i = 0,len = meetingList.length; i < len; i++){
+            $('#meetingListGroup li').remove();
+            // var liHead = document.createElement("li");
+            // liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
+            // meetingUl.appendChild(liHead);
+            for(let i = meetingList.length -1 ;i >= 0 ; i--){
                 let li = document.createElement("li");
                 let meetingId = meetingList[i].mId;
-                let meetingPass = meetingList[i].mPass;
+                let mBeginTime = meetingList[i].mBeginTime;
+                let mEndTime = meetingList[i].mEndTime;
                 let meetingName = meetingList[i].mName;
                 let meetingDesc = meetingList[i].mDesc;
+                let meetingSec = meetingList[i].mSec;
+                // let uId = meetingList[i].mCreater.uId;
+                let uName = meetingList[i].createrId;
                 li.onclick = function(){
                   $("#modal_join_meeting_title").html(meetingId);
-                }
-                li.innerHTML = '<li class="list-group-item">\n'+
-                                    '<div id="'+meetingId+'" class="meeting-item" data-toggle="modal" data-target="#modal_join_meeting">'+meetingId+'.'+meetingName+'</div>'+
+                };
+                $("#meetingListGroup li").css("display","inline-block") 
+                // li.innerHTML = '<li class="list-group-item">\n'+
+                //                     '<div id="'+meetingId+'" class="meeting-item" data-toggle="modal" data-target="#modal_join_meeting">'+meetingId+'.'+meetingName+'</div>'+
                                     
-                                    '<span class="meetingInfo">'+ meetingDesc + '</span>'+
-                                '</li>';
+                //                     '<span class="meetingInfo">'+ meetingDesc + '</span>'+
+                //                 '</li>';
+                li.innerHTML = `
+                <div class="meeting_container" style="display:inline-block">
+                    <div class="card-head">
+                        <h4 class="meeting-id">会议id：${meetingId}</h4>
+                        <div class="meeting-time">${mBeginTime}-${mEndTime}</div>
+                    
+                        <div class="card-body">
+                            <div class="meeting-name">${meetingName}</div>
+                            <div class="meeting-info">
+                                <p class="meeting-sec">[${meetingSec}]</p>
+                                <p class="meeting-role">创建人：${uName}</p>
+                            </div>                       
+                            <p class="meeting-description">
+                                ${meetingDesc}
+                            </p>
+                        </div>
+                                            
+                    </div>                             
+                    <button class="meeting-join" data-toggle="modal" data-target="#modal_join_meeting">加入</button>
+                </div>`
                                
             meetingUl.appendChild(li);
         }

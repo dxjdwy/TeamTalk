@@ -203,11 +203,16 @@ function reg_submit(){
             //请求方式
             type : "POST",
             //请求的媒体类型
-            contentType: "application/json;charset=UTF-8",
+           
             //请求地址
-            url : "http://117.78.9.153:24750/teamtalk/v1/user/addUser",
+			url : "http://117.78.9.153:24750/teamtalk/v1/user/addUser",
+			dataType:"json",
             //数据，json字符串
-            data :JSON.stringify(regData),
+            data :{
+				"userId":reg_username,
+				"userName":reg_username,
+				"userPass":reg_passwordI	
+			},
             //请求成功
             success : function(result) {
 				console.log(result);

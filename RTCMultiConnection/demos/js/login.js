@@ -159,8 +159,8 @@ function login(event) {
 			
 			if(result.code == 200){
 				console.log(result.code);
-				alert('登录成功');
-				if(window.location.pathname == "/demos/login.html"){
+				
+				if(window.location.pathname == "login.html"){
 					window.location = "./meeting_index.html"
 				}else{
 					window.location = "./meeting_index.html"
@@ -173,6 +173,7 @@ function login(event) {
 		},
 		//请求失败，包含具体的错误信息
 		error : function(e){
+			alert('认证失败');
 			console.log(e.message);			
 		}
 	});
@@ -203,11 +204,15 @@ function reg_submit(){
             //请求方式
             type : "POST",
             //请求的媒体类型
-            contentType: "application/json;charset=UTF-8",
+			contentType: "application/json;charset=UTF-8",
             //请求地址
-            url : "http://117.78.9.153:24750/teamtalk/v1/user/addUser",
+			url : "http://localhost:24750/teamtalk/v1/user/addUser",
+			dataType:"json",
+			xhrFields:{
+				withCredentials:true
+			},
             //数据，json字符串
-            data :JSON.stringify(regData),
+            data:JSON.stringify(regData),
             //请求成功
             success : function(result) {
 				console.log(result);

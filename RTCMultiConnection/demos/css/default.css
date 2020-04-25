@@ -252,4 +252,29 @@
     padding: 13px 15px;
 }
 
+#mine{
+    background-color: #fbfbfb;
+    color: #444;
+    font-weight: 900;
+    font-size: 12px;
+    line-height: 1.42857143;
+    padding: 6px 15px;
+    border-bottom: 1px solid #caced1;
+}
+
+.begin-time{
+    display: inline-block;
+    width: 61.5%;
+    /* margin-left: 14px; */
+
+}
+.begin-time > .form-control{
+    width: 75%;
+    display: inline-block;
+    /* padding: 0%; */
+}
+.begin-time > .input-group-addon{
+    width: 9px;
+    height: 33.5px;
+}
 

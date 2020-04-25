@@ -168,7 +168,7 @@ function meeting_submit(){
                         }else if(result_get.code == 401){
                             var url="login.html";
                             window.location.href = url
-                            alert(result_get.message);
+                            
                                 
                         }
                     },
@@ -180,7 +180,7 @@ function meeting_submit(){
 				}else if(result.code == 401){
                     var url="login.html";
                     window.location.href = url
-                    alert(result.message);
+                    
                         
                 }
             },
@@ -232,7 +232,7 @@ function meeting_join(){
             },
             success : function(result) {                              
                 if(result.code == 200){                   
-					alert('加入成功');
+					
                     document.getElementById("meeting_id").value = '';
                     document.getElementById("meeting_password1").value = '';
                     $('#myModal1').modal('hide');
@@ -242,7 +242,7 @@ function meeting_join(){
                 }else if(result.code == 401){
                     var url="login.html";
                     window.location.href = url
-                    alert(result.message);
+                    
                         
                 }
             },

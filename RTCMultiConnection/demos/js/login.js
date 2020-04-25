@@ -159,11 +159,11 @@ function login(event) {
 			
 			if(result.code == 200){
 				console.log(result.code);
-				alert('登录成功');
-				if(window.location.pathname == "/demos/login.html"){
+				
+				if(window.location.pathname == "login.html"){
 					window.location = "./meeting_index.html"
 				}else{
-					window.location = "./demos/meeting_index.html"
+					window.location = "./meeting_index.html"
 				}			
 			}else if(result.code == 401){
                     var url = "login.html"
@@ -173,6 +173,7 @@ function login(event) {
 		},
 		//请求失败，包含具体的错误信息
 		error : function(e){
+			alert('认证失败');
 			console.log(e.message);			
 		}
 	});

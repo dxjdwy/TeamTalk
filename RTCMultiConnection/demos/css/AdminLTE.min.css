@@ -1416,7 +1416,7 @@ deg
 }
 
 .form-control {
-	border-radius: 0;
+	border-radius: 4;
 	box-shadow: none;
 	border-color: #d2d6de
 }

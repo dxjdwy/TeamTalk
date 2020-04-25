@@ -41,6 +41,9 @@ body {
 .menu_link {
     text-decoration:none;
 }
+.menu_link:hover{
+    cursor: pointer;
+}
 .menu_link:focus {
     text-decoration:underline;
 }

@@ -88,7 +88,7 @@
                     <ul class="nav navbar-nav" style="margin-left: 20px;">
                         <li><a href="/">讲课模式</a></li>
                         <li><a href="/demos/demo_desktop_share.html">桌面共享</a></li>
-                        <li onclick="quitMeeting()"><a class="menu_link" href="./meeting_index.html">退出会议</a></li>
+                        <li onclick="quitMeeting()"><a class="menu_link">退出会议</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -144,6 +144,7 @@
     <script type="application/javascript">
 
 
+        var participantsRTCIdMap;
         window.onload = function() {
             var url = window.location.href;
             var roomId = url.substring(url.lastIndexOf("=") + 1);
@@ -154,10 +155,13 @@
             // });
             connection.openOrJoin(roomId,messageLoginSuccess);
         }
+
         function messageLoginSuccess() {
             var name = document.getElementById('userInfo').text;
             document.getElementById("mine").innerHTML = name + " (你的账号)";
+            addUserRTCid();
         }
+
         document.getElementById('sendMessageText').onkeyup = function(e) {
                 if (e.keyCode != 13) return;
 
@@ -169,6 +173,7 @@
                 appendDIV(this.value);
                 this.value = '';
         };
+
         function sendMessage() {
             var textarea = document.getElementById('sendMessageText')
             textarea.value = textarea.value.replace(/^\s+|\s+$/g, '');
@@ -184,7 +189,7 @@
 
         function appendDIV(event) {
             var li = document.createElement('li');
-            var name = event.userid || 'me';
+            var name = participantsRTCIdMap[event.userid] || 'me';
             var myDate = new Date().toLocaleString();
             li.innerHTML = name+'::::'+myDate+'<br>'+(event.data || event);
             chatContainer.append(li);
@@ -201,9 +206,140 @@
             // 左侧参会人人员
             for(var i = 0; i < participants.length; i++) {
                 var div = document.createElement('div');
-                var labelLeft = document.createTextNode(participants[i]);
+                var labelLeft = document.createTextNode(participantsRTCIdMap[participants[i]]);
                 div.appendChild(labelLeft);
                 others.appendChild(div);
+            }
+        }
+
+        function addUserRTCid() {
+            var name = document.getElementById('userInfo').text;
+            var params = {
+                meetingId: roomId,
+                rtcId: connection.userid,
+                userName: name
+            };
+            $.ajax({
+                //请求方式
+                type : "POST",
+                //请求的媒体类型
+                contentType: "application/json",
+                //请求地址
+                url : "http://117.78.9.153:24750/teamtalk/v1/meeting/addMeetingUser",
+                //数据，json字符串
+
+                data :JSON.stringify(params),
+                xhrFields:{
+                    withCredentials:true
+                },
+
+                //请求成功
+                success : function(result) {
+                    console.log(result);
+                },
+                //请求失败，包含具体的错误信息
+                error : function(e){
+                    console.log(e.message);
+                }
+            });
+        }
+
+        function deleteUserRTCid() {
+            var params = {
+                meetingId: roomId,
+                rtcId: connection.userid
+            };
+            $.ajax({
+                //请求方式
+                type : "POST",
+                //请求的媒体类型
+                contentType: "application/json",
+                //请求地址
+                url : "http://117.78.9.153:24750/teamtalk/v1/meeting/deleteMeetingUser",
+                //数据，json字符串
+
+                data :JSON.stringify(params),
+                xhrFields:{
+                    withCredentials:true
+                },
+
+                //请求成功
+                success : function(result) {
+                    console.log(result)
+                },
+                //请求失败，包含具体的错误信息
+                error : function(e){
+                    console.log(e.message);
+                }
+            });
+        }
+
+        function getParticipantList() {
+            $.ajax({
+                //请求方式
+                type : "GET",
+                //请求的媒体类型
+                contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+                //请求地址
+                url : "http://117.78.9.153:24750/teamtalk/v1/meeting/getUserListByMeetingId",
+                //数据，json字符串
+
+                data :{
+                    "meetingId":roomId
+                },
+                xhrFields:{
+                    withCredentials:true
+                },
+
+                //请求成功
+                success : function(result) {
+
+                    if(result.code == 200){
+                        participantsRTCIdMap = result.data
+                        renderParticipants();
+                    }else{
+                        console.log(e.message);
+                    }
+                },
+                //请求失败，包含具体的错误信息
+                error : function(e){
+                    console.log(e.message);
+                }
+            });
+        }
+
+        function quitMeeting() {
+            deleteUserRTCid();
+            var clientList = connection.peers.getAllParticipants();
+            if (clientList.length < 1) {
+                var params = {"mId":roomId}
+                $.ajax({
+                    //请求方式
+                    type : "POST",
+                    //请求的媒体类型
+                    contentType: "application/json",
+                    //请求地址
+                    url : "http://117.78.9.153:24750/teamtalk/v1/meeting/endMeeting",
+                    //数据，json字符串
+
+                    data :JSON.stringify(params),
+                    xhrFields:{
+                        withCredentials:true
+                    },
+
+                    //请求成功
+                    success : function(result) {
+                        window.location.href = '/demos/meeting_index.html';
+                    },
+                    //请求失败，包含具体的错误信息
+                    error : function(e){
+                        console.log(e.message);
+                        window.location.herf = './demos/meeting_index.html';
+                    }
+                });
+                window.location.herf = './demos/meeting_index.html';
+            } else {
+                window.location.href = '/demos/meeting_index.html';
             }
         }
 // ......................................................
@@ -250,7 +386,7 @@ connection.onmessage = appendDIV;
 
 // 渲染左侧参会人员
 connection.onPeerStateChanged = function() {
-    renderParticipants();
+    getParticipantList();
 }
 
 // connection.setRoomOccupantListener(convertListToButtons);

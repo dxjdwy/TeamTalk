@@ -82,13 +82,13 @@
                             aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/"><img class="fa fa-user fa-fw" src="./images/br_safari.png" style="display: inline;margin-right: 10px;"></img>语音会议系统</a>
+                    <a class="navbar-brand" href="meeting_index.html" onclick="quitMeeting()"><img class="fa fa-user fa-fw" src="./images/br_safari.png" style="display: inline;margin-right: 10px;"></img>语音会议系统</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav" style="margin-left: 20px;">
                         <li><a href="/">讲课模式</a></li>
                         <li><a href="/demos/demo_desktop_share.html">桌面共享</a></li>
-                        <li onclick="quitMeeting()"><a class="menu_link" href="#">退出会议</a></li>
+                        <li onclick="quitMeeting()"><a class="menu_link" href="meeting_index.html">退出会议</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -107,7 +107,7 @@
             <div class="sidebar">
                 <div class="sidebar-scroll">
                     <ul class="nav">
-                        <li class="active">参会人员</li>
+                        <li class="userTitle">参会人员</li>
                         <li id="mine"></li>
                         <li id="others"></li>
                         <!-- <div id="quickJoinBlock"></div>
@@ -121,7 +121,7 @@
             <div class="maincontent row">
                 <!--我是主要内容 start-->                   
                 <ul class="breadcrumb" id="receiveMessageArea">
-                    <li class="active" >聊天窗口</li>                                           
+                    <li class="active">聊天窗口</li>
                 </ul>
                 <div id="main">
                     <!-- <h2>The Demo</h2> -->

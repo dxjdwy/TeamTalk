@@ -290,7 +290,7 @@ function modal_join_meeting_submit(){
             //请求成功
             success : function(result) {               
                 if(result.code == 200){
-					alert('加入成功');
+					
                     document.getElementById("meeting_password1").value = '';
                     $('#meeting').modal('hide');
 				    window.location.href = "demo_meeting.html?roomId="+meeting_id;

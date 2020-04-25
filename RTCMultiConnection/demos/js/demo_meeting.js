@@ -1,6 +1,5 @@
 
 
-
 // ......................................................
 // ..................RTCMultiConnection Code.............
 // ......................................................
@@ -128,13 +127,16 @@ function sendMessage() {
 
 }
 
-
 function appendDIV(event) {
     var li = document.createElement('li');
     var name = document.getElementById('userInfo').text;
     var myDate = new Date().toLocaleString();
-    li.innerHTML = name+'::::'+myDate+'<br>'+(event.data || event);
-    document.getElementById('conversation').append(li);
+    var event = event.data || event;
+    li.innerHTML =` <div class="talking">
+    <div class="talking_title">${name} &nbsp; ${myDate}</div>
+    <div class="talking_content">${event}</div>
+  </div>`
+    chatContainer.append(li);
     li.tabIndex = 0;
     li.focus();
 

@@ -22,11 +22,20 @@
         <script src="js/jquery.min.js"></script>
 
         <!-- <script type="text/javascript" src="../easyrtc/easyrtc.js"></script>-->
+<<<<<<< HEAD
         <!-- <script type="text/javascript" src="js/demo_instant_messaging.js"></script> -->
   
 
+=======
+        <!-- <script type="text/javascript" src="js/demo_instant_messaging.js"></script>
+        <script type="text/javascript" src="js/demo_multiparty.js"></script>  -->
+>>>>>>> cc6bb30602a784b1f48155ef7f5a262e83464eeb
         <script src="/dist/RTCMultiConnection.min.js"></script>
         <script src="/node_modules/webrtc-adapter/out/adapter.js"></script>
+        
+
+        
+ 
 
         <link rel="stylesheet" href="/dev/getHTMLMediaElement.css">
         <script src="/dev/getHTMLMediaElement.js"></script>
@@ -54,6 +63,7 @@
                 height:350px;
                 border:solid 1px gray;
                 overflow-y:scroll;
+                list-style: none;
             }
             /* #left {
                 position: absolute;
@@ -68,6 +78,21 @@
             } */
             #share {
                 float: right;
+            }
+            .talking_title{
+                font-size: 12px;
+                color: rgb(170, 169, 169);
+            }
+
+            .talking_content{
+                font-size: 16px;
+                color: #3a3a3a;
+                margin-top: 2px;
+                margin-left: 15px;
+            }
+
+            .talking{
+                margin:5px 0px 1px 5px;
             }
         </style>
         <!--show-->
@@ -129,11 +154,11 @@
                     <!--show-->
                     <div  id="conversation"></div>  
                     <div id="sendMessageArea">
-                        <div id="iam">Not connected yet</div>
+                        <!-- <div id="iam">Not connected yet</div> -->
                         <textarea id="sendMessageText" placeholder="在这里输入信息"></textarea>
                         <div id="otherClients"></div>
-                        Rooms:
-                        <div id="rooms"></div>
+                        <!-- Rooms:
+                        <div id="rooms"></div> -->
                         <button class="btn btn-primary" id="sendMessageButton" onclick="sendMessage()">发送</button>
                     </div>
                     <hr />    
@@ -141,9 +166,9 @@
                 <!--我是主要内容 end-->
             </div>
         </div>
+        <script type="application/javascript" src="js/demo_meeting.js"></script>
+
     </body>
-    <script type="application/javascript">
 
 
-    </script>
 </html>

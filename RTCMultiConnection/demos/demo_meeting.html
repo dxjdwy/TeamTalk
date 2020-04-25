@@ -88,7 +88,7 @@
                     <ul class="nav navbar-nav" style="margin-left: 20px;">
                         <li><a href="/">讲课模式</a></li>
                         <li><a href="/demos/demo_desktop_share.html">桌面共享</a></li>
-                        <li onclick="quitMeeting()"><a class="menu_link" href="#">退出会议</a></li>
+                        <li onclick="quitMeeting()"><a class="menu_link" href="./meeting_index.html">退出会议</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -184,7 +184,7 @@
 
         function appendDIV(event) {
             var li = document.createElement('li');
-            var name = document.getElementById('userInfo').text;
+            var name = event.userid || 'me';
             var myDate = new Date().toLocaleString();
             li.innerHTML = name+'::::'+myDate+'<br>'+(event.data || event);
             chatContainer.append(li);
@@ -194,6 +194,18 @@
             document.getElementById('sendMessageText').focus();
         }
 
+        function renderParticipants () {
+            var participants = connection.peers.getAllParticipants();
+            var others = document.getElementById('others');
+            others.innerHTML = '';
+            // 左侧参会人人员
+            for(var i = 0; i < participants.length; i++) {
+                var div = document.createElement('div');
+                var labelLeft = document.createTextNode(participants[i]);
+                div.appendChild(labelLeft);
+                others.appendChild(div);
+            }
+        }
 // ......................................................
 // ..................RTCMultiConnection Code.............
 // ......................................................
@@ -235,6 +247,11 @@ connection.iceServers = [{
     ]
 }];
 connection.onmessage = appendDIV;
+
+// 渲染左侧参会人员
+connection.onPeerStateChanged = function() {
+    renderParticipants();
+}
 
 // connection.setRoomOccupantListener(convertListToButtons);
 

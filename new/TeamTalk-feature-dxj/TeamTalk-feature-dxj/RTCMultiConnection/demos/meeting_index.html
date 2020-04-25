@@ -115,36 +115,45 @@
                             </div>
                             <div class="modal-body">
                               <div class="form-group has-feedback">
+                                <span id="meeting_item">会议名</span>
                                 <input type="text" id="meeting_username" class="form-control"  placeholder="请输入会议名" value="">
+                                <span class="force"><i>*</i>必填</span>
                               </div>
                               <div class="form-group has-feedback">
+                                <span id="meeting_item">会议密码</span>
                                 <input type="password" id="meeting_passwordI" class="form-control"  placeholder="请输入密码" >
+                                <span class="force"><i>*</i>必填</span>
                               </div>
                               <div class="form-group has-feedback">
+                                <span id="meeting_item">确认密码</span>
                                 <input type="password" id="meeting_passwordII" class="form-control"  placeholder="请确认密码" >
+                                <span class="force"><i>*</i>必填</span>
                               </div>
+                              
                               <div class="form-group has-feedback">
-                                请选择会议类型
+                                <span id="meeting_item">会议类型</span>
                                 <select id="meeting_type">
                                     <option value ="0">普通</option>
                                     <option value ="1">讲课</option>
                                 </select>
+                                <span class="force"><i >*</i>必填</span>
                               </div>
                               <div class="form-group has-feedback">
-                                请选择会议密级
+                                <span id="meeting_item">会议密级</span>
                                 <select id="meeting_sec">
-                                    <option value ="0">0</option>
-                                    <option value ="1">1</option>
-                                    <option value ="2">2</option>
-                                    <option value ="3">3</option>
-                                    <option value ="4">4</option>
-                                    <option value ="5">5</option>
+                                    <option value ="0">绝密</option>
+                                    <option value ="1">机密</option>
+                                    <option value ="2">秘密</option>
+                                    <option value ="3">内部</option>
+                                    <option value ="4">公开</option>
                                 </select>
-                              </div>
-                              <div class="form-group has-feedback">
-                                <input type="text" id="meeting_info" class="form-control"  placeholder="请输入会议描述(选填)" >
+                                <span class="force"><i>*</i>必填</span>
                               </div>
                               
+                              <div class="form-group has-feedback">
+                                <span id="meeting_item">会议描述</span>
+                                <input type="text" id="meeting_info" class="form-control"  placeholder="请输入会议描述(选填)" >
+                              </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal" onclick="meeting_cancel();">取消</button>
@@ -163,10 +172,14 @@
                             </div>
                             <div class="modal-body">
                               <div class="form-group has-feedback">
+                                <span id="meeting_item">会议id</span>
                                 <input type="text" id="meeting_id" class="form-control"  placeholder="请输入会议id" value="">
+                                <span class="force"><i >*</i>必填</span>
                               </div>
                               <div class="form-group has-feedback">
+                                <span id="meeting_item">会议密码</span>
                                 <input type="password" id="meeting_password1" class="form-control"  placeholder="请输入密码" >
+                                <span class="force"><i >*</i>必填</span>
                               </div>
                               
                             </div>
@@ -182,13 +195,18 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <span>加入会议</span>
-                                <h4 class="modal-title" id="modal_join_meeting_title"></h4>
-                            </div>
+                                <h4 class="modal-title" id="myModalLabel">加入会议</h4>
+                            </div>          
+                            
                             <div class="modal-body">
-                             
                               <div class="form-group has-feedback">
+                                <span id="meeting_item">会议id</span>
+                                <div class="form-control" id="modal_join_meeting_title"></div>
+                              </div>
+                              <div class="form-group has-feedback">
+                                <span id="meeting_item">会议密码</span>
                                 <input type="password" id="modal_join_meeting_password" class="form-control"  placeholder="请输入密码" >
+                                <span class="force"><i >*</i>必填</span>
                               </div>
                               
                             </div>

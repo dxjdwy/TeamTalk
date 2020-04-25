@@ -72,3 +72,8 @@ body {
 #textentryCancel {
     font-size:larger;
 }
+
+.userTitle{
+    background-color: #0490c7;
+    color: #fff;
+}

@@ -15,6 +15,8 @@ $.ajax({
     //请求成功
     success : function(result) {         
         if(result.code == 200){
+            console.log(result,'ssssssss');
+            
             $("#userInfo").text(result.data.username);
             if(result.data.userRole == "1"){
                 $("#log_manager").hide();
@@ -44,13 +46,12 @@ function user_cancel(){
 
 
 
-function role_management(){
-
+function role_management(){    
     var role_type = document.getElementById("role_type").value; 
     var userId = $("#userId").text().replace(/(^\s*)|(\s*$)/g, "");
     var role_password1 = document.getElementById("role_password1").value.replace(/(^\s*)|(\s*$)/g, ""); 
     var role_password2 = document.getElementById("role_password2").value.replace(/(^\s*)|(\s*$)/g, ""); 
-    console.log(role_type,role_password1);
+    console.log(userId,role_type,role_password1);
             
    
     if(role_password1 != role_password2){
@@ -82,7 +83,8 @@ function role_management(){
                     document.getElementById("role_password1").value='';
                     document.getElementById("role_password2").value='';
                     $('#userModal').modal('hide');
-                    roleList();
+                    // roleList();
+                    initTable();
                 }else if(result.code == 401){
                     var url="login.html";
                     window.location.href = url
@@ -100,110 +102,227 @@ function role_management(){
     }	
 }
 
-// var json1 = {
-// "userId":'1',
-// "userName":'点对点',	//会议名称 string,
-// "userSec":	'1',	//会议密级 string,
-// "userRole":'afra'
-// }
-// var json2 = {
-//     "userId":'2',
-//     "userName":'wwww',	//会议名称 string,
-//     "userSec":	'2',	//会议密级 string,
-//     "userRole":'qwqe'
-//     }
-// var meetingList = [json1,json2];
-// var meetingUl = document.getElementById('meetingListGroup');
-// $('#meetingListGroup li').remove();
-// var liHead = document.createElement("li");
-// liHead.innerHTML = '<li class="list-group-item active">' + '当前会议' +'</li>';
-// meetingUl.appendChild(liHead);
-// for(let i = 0,len = meetingList.length; i < len; i++){
-//     let li = document.createElement("li");
-//     let userId = meetingList[i].userId;
-//     let userName = meetingList[i].userName;
-//     let userSec = meetingList[i].userSec;
-//     let userRole = meetingList[i].userRole;
 
-    
-//     li.innerHTML = '<li class="list-group-item">\n'+
-//     '<div id="meeting-item1" class="meeting-item" onclick="" data-toggle="modal" data-target="#meeting">'+userId+'.'+userName+'</div>'+
-//     '<div class="modal fade" id="meeting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
-//     '<div class="modal-dialog">'+
-//         '<div class="modal-content">'+
-//             '<div class="modal-header">'+
-//             ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-//                 '<h4 class="modal-title" id="myModalLabel">加入会议</h4>'+
-//             '</div>'+
-//             '<div class="modal-body">'+
-//                 '<div class="form-group has-feedback">'+
-//             ' <input type="password" id="meeting_password2" class="form-control"  placeholder="请输入密码" >'+userId+
-//                 '</div>' +                              
-//             '</div>'+
-//             '<div class="modal-footer">'+
-//                 '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
-//                 '<button type="button" class="btn btn-primary" onclick="meeting_join1();">加入会议</button>'+
-//             '</div>'+
-//         '</div>'+
-//     '</div>'+
-//     '</div>' +
-//     '<span class="meetingInfo">'+ userSec + '</span>'+
-// '</li>'
-// meetingUl.appendChild(li);
-// }
 
-function roleList(){ 
-    $.ajax({
-        //请求方式
-        type : "POST",
-        //请求的媒体类型
-        contentType: "application/json;charset=UTF-8",
-        //请求地址
-        url : "http://117.78.9.153:24750/teamtalk/v1/user/getUserList",
-        //数据，json字符串
-        xhrFields:{
-            withCredentials:true
-        },
-        dataType: "json",
-        //请求成功
-        success : function(result) {
-            if(result.code == 200){
-                var userList = result.data;
-                var userUl = document.getElementById('userListGroup');
-                $('#userListGroup li').remove();
-                var liHead = document.createElement("li");
-                liHead.innerHTML = '<li class="list-group-item active">' + '管辖人员' +'</li>';
-                userUl.appendChild(liHead);
+// function roleList(){ 
+//     $.ajax({
+//         //请求方式
+//         type : "POST",
+//         //请求的媒体类型
+//         contentType: "application/json;charset=UTF-8",
+//         //请求地址
+//         url : "http://117.78.9.153:24750/teamtalk/v1/user/getUserList",
+//         //数据，json字符串
+//         xhrFields:{
+//             withCredentials:true
+//         },
+//         dataType: "json",
+//         //请求成功
+//         success : function(result) {
+//             if(result.code == 200){
+//                 var userList = result.data;
+//                 var userUl = document.getElementById('userListGroup');
+//                 $('#userListGroup li').remove();
+//                 var liHead = document.createElement("li");
+//                 liHead.innerHTML = '<li class="list-group-item active">' + '管辖人员' +'</li>';
+//                 userUl.appendChild(liHead);
                 
-                for(i = 0,len = userList.length; i < len; i++){
-                    let li = document.createElement("li");
-                    let userId = userList[i].userId;
-                    let userName = userList[i].username;
-                    // let userSec = userList[i].userSec;
-                    let userRole = userList[i].userRole;
-                    li.onclick= function(){
-                        $("#userId").html(userId);
-                        $("#role_type").val(userRole);
-                    }
+//                 for(i = 0,len = userList.length; i < len; i++){
+//                     let li = document.createElement("li");
+//                     let userId = userList[i].userId;
+//                     let userName = userList[i].username;
+//                     // let userSec = userList[i].userSec;
+//                     let userRole = userList[i].userRole;
+//                     li.onclick= function(){
+//                         $("#userId").html(userId);
+//                         $("#role_type").val(userRole);
+//                     }
                     
-                    li.innerHTML = '<li class="list-group-item">\n'+
-                    '<div id="" class="meeting-item" onclick="" data-toggle="modal" data-target="#userModal">'+userId+'.'+userName+'</div>'+
+//                     li.innerHTML = '<li class="list-group-item">\n'+
+//                     '<div id="" class="meeting-item" onclick="" data-toggle="modal" data-target="#userModal">'+userId+'.'+userName+'</div>'+
                     
-                    '<span class="meetingInfo">'+ userRole + '</span>'+
-                    '</li>'
-                    userUl.appendChild(li);
-                }
-            }else if(result.code == 401){
-                var url="login.html";
-                window.location.href = url
-                alert(result.message);
+//                     '<span class="meetingInfo">'+ userRole + '</span>'+
+//                     '</li>'
+//                     userUl.appendChild(li);
+//                 }
+//             }else if(result.code == 401){
+//                 var url="login.html";
+//                 window.location.href = url
+//                 alert(result.message);
                     
-            }
-        },
-    error:function(e){
+//             }
+//         },
+//     error:function(e){
         
-        console.log(e.message); 
-    }
+//         console.log(e.message); 
+//     }
+//     })
+// };
+// window.onload = roleList();
+
+var $table = $('#table')
+
+var selections = []
+
+function getIdSelections() {
+    // console.log($table.bootstrapTable('getSelections'));
+    
+  return $.map($table.bootstrapTable('getSelections'), function (row) {
+    return row.id
+  })
+}
+
+function responseHandler(res) {
+  $.each(res.rows, function (i, row) {
+    row.state = $.inArray(row.id, selections) !== -1
+  })
+  return res
+}
+
+function initTable() {
+    $table.bootstrapTable('destroy').bootstrapTable({
+      ajax:function(request){                    
+          $.ajax({
+              type : "POST",
+              dataType: "json",
+              //请求的媒体类型
+              contentType: "application/json;charset=UTF-8",
+              //请求地址
+              url : "http://117.78.9.153:24750/teamtalk/v1/user/getUserList",
+              //数据，json字符串
+              // data:JSON.stringify(postData),
+              xhrFields:{
+                  withCredentials:true
+              },             
+              success:function (res) {
+                if(res.code == 200){
+                  // console.log(res);
+                  
+                  request.success({
+                    row:res.data,
+                  });
+                  $('#table').bootstrapTable('load', res.data);
+                }else if(res.code == 401){
+                    var url = "login.html"
+                    window.location.href = url;
+                    console.log(e.message);
+                }                
+              },
+              error:function(error){
+                  console.log(error);
+              }
+          })
+      },
+      height: 550,
+      locale: $('#locale').val(),
+      columns: [
+        // [{
+        //   field: 'state',
+        //   checkbox: false,
+        //   rowspan: 2,
+        //   align: 'center',
+        //   valign: 'middle'
+        // }, {
+        [{
+          title: "序号",
+          field: 'id',
+          rowspan: 2,
+          align: 'center',
+          valign: 'middle',
+          sortable: true,
+          width:150,
+          formatter: indexMethod
+          
+          // footerFormatter: totalTextFormatter
+        }, {
+          title: '用户详情',
+          colspan: 4,
+          align: 'center',
+        }],
+        [{
+            title: '用户ID',
+            field: 'userId',
+            // rowspan: 2,
+            align: 'center',
+            valign: 'middle',
+            sortable: true,
+            width:150,
+            // footerFormatter: totalTextFormatter
+          },{
+          field: 'username',
+          title: '姓名',
+          sortable: false,
+          // footerFormatter: totalNameFormatter,
+          align: 'center'
+        },{
+          field: 'userRole',
+          title: '角色',
+          sortable: false,
+          align: 'center',
+          width:300,
+        }
+        ,{
+            field: 'operate',
+            title: '修改',
+            align: 'center',
+            clickToSelect: false,
+            events: window.operateEvents,
+            formatter: operateFormatter
+          }
+        ]
+      ]
     })
-};
-window.onload = roleList();
+    // $table.on('check.bs.table uncheck.bs.table ' +
+    //   'check-all.bs.table uncheck-all.bs.table',
+    // function () {
+    //   $remove.prop('disabled', !$table.bootstrapTable('getSelections').length)
+  
+    //   // save your data, here just save the current page
+    //   selections = getIdSelections()
+    //   // push or splice the selections if you want to save all data selections
+    // })
+    // $table.on('all.bs.table', function (e, name, args) {
+    //   console.log(name, args)
+    // })
+  //   $remove.click(function () {
+  //     var ids = getIdSelections()
+  //     $table.bootstrapTable('remove', {
+  //       field: 'id',
+  //       values: ids
+  //     })
+  //     $remove.prop('disabled', true)
+  //   })
+  }
+  
+  $(function() {
+    initTable()
+  
+    $('#locale').change(initTable)
+  })
+  
+  function user_cancel(){
+    document.getElementById("role_password1").value='';
+    document.getElementById("role_password2").value='';
+  }
+
+  function operateFormatter(value, row, index) {
+    return [
+      '<a class="remove" href="javascript:void(0)" title="Remove">',
+      '<i class="fa fa-pencil"></i>',
+      '</a>'
+    ].join('')
+  }
+
+  window.operateEvents = {
+    'click .remove': function(e, value, row, index) {
+        $('#userModal').modal();
+        $("#role_type").val(row.userRole);
+        $("#userId").html(row.userId);
+        console.log(row);       
+    }
+  }
+
+  function indexMethod(value, row, index) {
+    return index + 1;
+  }
+
